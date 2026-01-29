@@ -1,0 +1,98 @@
+<section
+  class="default-bg-color min-h-screen flex items-center justify-center flex-wrap"
+>
+  <div class="flex flex-wrap justify-center items-center">
+    <div class="max-w-80 mb-8">
+      <img src="/img/logo-white.png" alt="logo" class="mx-auto max-w-full" />
+    </div>
+
+    <div class="w-full">
+      <app-card
+        cardClass="bg-[#0D0E12] text-white border border-[#26272F] p-6 rounded-xl"
+      >
+        <h1 class="text-center text-lg">{{"OTP" | translate}}</h1>
+        <app-paragraph paragraphClass="text-center text-white mb-4"
+          >{{"The otp sent to your email. check your email" | translate}}
+        </app-paragraph>
+        <div class="flex justify-center gap-2 mb-4">
+          <div class="w-full">
+            <hr class="border-[#26272F]" />
+          </div>
+          <div class="w-full">
+            <hr class="border-[#26272F]" />
+          </div>
+        </div>
+
+        <form [formGroup]="form" class="flex flex-col">
+          <app-custom-input
+            label="OTP"
+            iconPosition="end"
+            labelClass="text-white"
+            icon="eye"
+            inputClass="custom-input-dark"
+            labelPosition="vertical"
+            placeholder="OTP"
+            type="text"
+            [numberOnly]="true"
+            formControlName="OTP"
+          ></app-custom-input>
+
+          <div class="flex items-center gap-x-4 mb-2">
+            <div>
+              <app-paragraph>
+                {{ timeLeftFormatted }}
+              </app-paragraph>
+            </div>
+            @if (timerFinished){
+            <div>
+              <app-custom-button
+                type="button"
+                (click)="resendOtp()"
+                label="Resend Code"
+                buttonClass="bg-transparent px-[0px] py-[0px]"
+              >
+              </app-custom-button>
+            </div>
+            }@else {
+            <div>
+              <app-custom-button
+                type="button"
+                [disabled]="true"
+                buttonClass="bg-transparent px-[0px] py-[0px]"
+                label="Resend Code"
+              >
+              </app-custom-button>
+            </div>
+            }
+          </div>
+
+          <div>
+            <ngx-recaptcha2
+              #captchaElem
+              [siteKey]="siteKey"
+              (success)="handleSuccess($event)"
+              [useGlobalDomain]="true"
+              formControlName="recaptcha"
+            >
+            </ngx-recaptcha2>
+          </div>
+          <app-custom-button
+            buttonClass="my-4"
+            type="submit"
+            variant="blue"
+            label="Login"
+            (click)="onSubmit()"
+            [disabled]="form.invalid"
+          ></app-custom-button>
+        </form>
+        <app-paragraph paragraphClass="text-center">
+          <a routerLink="/auth/login" class="underline">{{"Back to Login" | translate }}</a>
+        </app-paragraph>
+      </app-card>
+    </div>
+  </div>
+
+  <div class="w-full text-[#808290] text-center mt-auto pb-4">
+    <p>{{"Website is copyrighted by Swalac@ 2025" | translate}}</p>
+  </div>
+</section>

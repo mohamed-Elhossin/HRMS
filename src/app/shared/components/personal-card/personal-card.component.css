@@ -1,0 +1,17 @@
+.profile-bg{
+  background-image: url('/img/profile-bg.png');
+  background-size: cover;
+  background-position: center center;
+}
+.inner-border {
+  position: relative;
+}
+.inner-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 5px solid rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+  z-index: 10;
+  border-radius: 50%; /* لو عندك rounded */
+}

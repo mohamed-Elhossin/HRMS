@@ -1,0 +1,16 @@
+<div class="flex flex-wrap">
+  <div class="w-full lg:w-2/12">
+    <app-title-page title="Dashboard"></app-title-page>
+  </div>
+  <div class="w-full lg:10/12 xl:w-8/12">
+    <app-personal-card></app-personal-card>
+  </div>
+</div>
+
+<app-tabs
+  [tabs]="tabs"
+></app-tabs>
+
+<div>
+  <router-outlet></router-outlet>
+</div>

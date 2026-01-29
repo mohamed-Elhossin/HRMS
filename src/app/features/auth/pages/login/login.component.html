@@ -1,0 +1,71 @@
+<section
+  class="default-bg-color min-h-screen flex items-center justify-center flex-wrap"
+>
+  <div class="flex flex-wrap justify-center items-center">
+    <div class="max-w-80 mb-8">
+      <img src="/img/logo-white.png" alt="logo" class="mx-auto max-w-full" />
+    </div>
+    <div class="w-full">
+      <app-card
+        cardClass="bg-[#0D0E12] text-white border border-[#26272F] p-6 rounded-xl"
+      >
+        <h1 class="text-center text-lg mb-4">Sign in</h1>
+        <div class="flex justify-center gap-2 mb-4">
+          <div class="w-full">
+            <hr class="border-[#26272F]" />
+          </div>
+          <div class="w-full">
+            <hr class="border-[#26272F]" />
+          </div>
+        </div>
+
+        <form [formGroup]="form" class="flex flex-col">
+          <app-custom-input
+            label="Email"
+            inputClass="custom-input-dark"
+            labelPosition="vertical"
+            labelClass="text-white"
+            placeholder="email@email.com"
+            type="email"
+            formControlName="email"
+          ></app-custom-input>
+          <app-custom-input
+            label="Password"
+            iconPosition="end"
+            icon="eye"
+            labelClass="text-white"
+            inputClass="custom-input-dark"
+            labelPosition="vertical"
+            placeholder="Enter Password"
+            type="password"
+            formControlName="password"
+          ></app-custom-input>
+          <a class="text-[#006AE6] text-end mb-4 cursor-pointer"
+            >Forgot Password?</a
+          >
+          <app-custom-input
+            type="checkbox"
+            labelClass="text-[#B5B7C8]"
+            iconStyle="opacity:0;"
+            label="Remember me"
+            formControlName="rememberMe"
+          ></app-custom-input>
+
+          <app-custom-button
+            buttonClass="my-4"
+            type="submit"
+            variant="blue"
+            label="Sign In"
+            (click)="onSubmit()"
+            [disabled]="form.invalid"
+          ></app-custom-button>
+
+        </form>
+      </app-card>
+    </div>
+  </div>
+
+  <div class="w-full text-[#808290] text-center mt-auto pb-4">
+    <p>Website is copyrighted by Swalac&#64; 2025</p>
+  </div>
+</section>

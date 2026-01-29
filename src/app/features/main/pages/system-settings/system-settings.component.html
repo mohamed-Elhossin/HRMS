@@ -1,0 +1,21 @@
+<div class="pb-8">
+  <div class="flex flex-wrap justify-between">
+    <div>
+      <app-title-page title="System Settings"></app-title-page>
+    </div>
+    <div>
+      <app-custom-button
+        label="Go to SWALAC"
+        type="button"
+        buttonClass="font-[400] text-[13px]"
+      >
+      </app-custom-button>
+    </div>
+  </div>
+</div>
+
+<app-tabs [tabs]="tabs"></app-tabs>
+
+<div class="py-14">
+  <router-outlet></router-outlet>
+</div>

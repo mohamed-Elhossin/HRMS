@@ -1,0 +1,81 @@
+<div
+  class="relative border-2 border-dashed border-[#ABAEB8] rounded-xl p-6 flex flex-col items-center justify-center text-center cursor-pointer transition duration-200 ease-in-out hover:bg-indigo-50"
+  (click)="fileInput.click()" (drop)="handleDrop($event)" (dragover)="handleDragOver($event)"
+  (dragleave)="handleDragLeave($event)" [ngClass]="{ 'bg-indigo-100': isDragging }">
+
+  <input type="file" [accept]="accept" multiple (change)="onFileChange($event)" class="hidden" #fileInput />
+
+  <ng-container>
+    @if( !previewUrl) {
+    <div class="w-48 relative">
+      <img src="/img/magicpattern.png" alt="magicpattern" class="transform scale-[1.8]">
+      <div class="absolute top-0 w-full h-full rounded-xl flex items-center justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="55" height="55" viewBox="0 0 38 38" fill="none">
+          <path
+            d="M8.00086 1.16718H14.5108L7.7528 21.2022C7.71824 21.3045 7.66795 21.4008 7.60374 21.4877C7.53966 21.5746 7.46238 21.6507 7.37465 21.7137C7.28692 21.7767 7.19011 21.8256 7.08726 21.8587C6.9844 21.8917 6.87714 21.9087 6.76934 21.9087H1.70297C1.53851 21.9087 1.37625 21.8697 1.22994 21.7943C1.08347 21.7192 0.957044 21.6102 0.861141 21.4764C0.765175 21.3426 0.702395 21.1879 0.677979 21.0251C0.653503 20.8623 0.668354 20.6959 0.720882 20.5399L7.01713 1.87315C7.05151 1.77084 7.10183 1.67458 7.16619 1.58768C7.23027 1.50077 7.30782 1.42459 7.39528 1.36161C7.48301 1.29863 7.57981 1.24968 7.68267 1.21668C7.78553 1.18368 7.89278 1.16663 8.00059 1.16663V1.1669L8.00086 1.16718Z"
+            fill="url(#paint0_linear_349_765)" />
+          <path
+            d="M20.0014 21.9087H14.1559C14.0908 21.9087 14.0256 21.9026 13.9612 21.8902C13.8971 21.8781 13.8342 21.86 13.7734 21.8361C13.7126 21.8121 13.6543 21.7824 13.599 21.7478C13.5438 21.7129 13.492 21.6729 13.4442 21.6284L6.81077 15.4334C6.74061 15.3679 6.69175 15.2828 6.67051 15.1892C6.6493 15.0956 6.65676 14.9977 6.69193 14.9084C6.7271 14.8191 6.78835 14.7424 6.8677 14.6884C6.94718 14.6345 7.04096 14.6056 7.13694 14.6056H17.46L20.0009 21.9089L20.0014 21.9087Z"
+            fill="#0078D4" />
+          <path
+            d="M14.5343 1.16725L9.97725 14.6071L17.4231 14.6054L19.9772 21.9088H14.1537C14.0934 21.9082 14.0332 21.9027 13.9738 21.892C13.9144 21.8813 13.8561 21.8656 13.7994 21.8447C13.6858 21.8033 13.5802 21.7428 13.487 21.6657L9.00919 17.4865L7.75566 21.1833C7.72321 21.2757 7.67866 21.3634 7.6231 21.444C7.51176 21.6061 7.35946 21.7358 7.1817 21.8199C7.0932 21.8618 6.99951 21.8917 6.90311 21.9088H1.70611C1.54 21.9093 1.37609 21.8697 1.2284 21.7933C1.08069 21.7169 0.95355 21.6061 0.857717 21.4702C0.761884 21.3343 0.700178 21.1773 0.677817 21.0125C0.655536 20.8476 0.673173 20.6799 0.729245 20.5232L7.01532 1.88724C7.04804 1.78301 7.09727 1.68483 7.16107 1.59628C7.2246 1.50772 7.30216 1.42962 7.39016 1.36526C7.47817 1.30091 7.57608 1.25085 7.67976 1.2173C7.78344 1.18375 7.89207 1.1667 8.00125 1.16725H14.5346H14.5343Z"
+            fill="url(#paint1_linear_349_765)" />
+          <path
+            d="M22.6121 20.5399C22.6647 20.6959 22.6795 20.8622 22.6553 21.025C22.6309 21.1878 22.5682 21.3424 22.4724 21.4763C22.3765 21.61 22.2501 21.719 22.1037 21.7942C21.9573 21.8693 21.7951 21.9086 21.6306 21.9086H14.3751C14.5395 21.9086 14.7018 21.8693 14.8484 21.7942C14.9947 21.7192 15.1212 21.61 15.2172 21.4763C15.3132 21.3427 15.3759 21.1878 15.4003 21.025C15.4248 20.8622 15.41 20.6958 15.3574 20.5399L9.06091 1.87253C8.9916 1.6669 8.85954 1.48818 8.68331 1.36155C8.59586 1.29857 8.49905 1.24989 8.39647 1.21689C8.29389 1.18389 8.18663 1.16711 8.0791 1.16711H15.3343C15.4421 1.16711 15.5491 1.18389 15.652 1.21689C15.7546 1.24989 15.8514 1.29885 15.9391 1.36155C16.0266 1.42453 16.1038 1.50071 16.1679 1.58734C16.232 1.67397 16.282 1.77023 16.3167 1.87253L22.6132 20.5399H22.6121Z"
+            fill="url(#paint2_linear_349_765)" />
+          <defs>
+            <linearGradient id="paint0_linear_349_765" x1="10.3767" y1="2.70452" x2="3.61131" y2="22.69"
+              gradientUnits="userSpaceOnUse">
+              <stop stop-color="#114A8B" />
+              <stop offset="1" stop-color="#0669BC" />
+            </linearGradient>
+            <linearGradient id="paint1_linear_349_765" x1="12.4862" y1="12.0167" x2="10.9214" y2="12.5475"
+              gradientUnits="userSpaceOnUse">
+              <stop stop-opacity="0.3" />
+              <stop offset="0.1" stop-opacity="0.2" />
+              <stop offset="0.3" stop-opacity="0.1" />
+              <stop offset="0.6" stop-opacity="0.1" />
+              <stop offset="1" stop-opacity="0" />
+            </linearGradient>
+            <linearGradient id="paint2_linear_349_765" x1="11.6227" y1="2.12142" x2="19.0482" y2="21.9034"
+              gradientUnits="userSpaceOnUse">
+              <stop stop-color="#3CCBF4" />
+              <stop offset="1" stop-color="#2892DF" />
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+    </div>
+    }
+    @if(!uploading && !previewUrl) {
+    <div class="z-50 absolute bottom-10">
+      <app-custom-button type="button" variant="blue" label="Upload Your E-Signature"></app-custom-button>
+    </div>
+    }@else if(uploading && processing) {
+    <p>{{'Uploading .... Analyzing your Documents' | translate}}</p>
+    <p>{{processing}}%</p>
+    <a (click)="cancelUpload()" class="underline  ">{{'Cancel Uploading' | translate}}</a>
+    }
+  </ng-container>
+
+  @if(!uploading && previewUrl) {
+  <div class="flex flex-col items-center gap-2">
+    <img [src]="previewUrl" alt="preview" class="w-40 h-40 " />
+    <div class="z-50 absolute bottom-[35%]">
+      <app-custom-button type="button" variant="primary" label="Update Your E-Signature"></app-custom-button>
+    </div>
+  </div>
+  }
+
+</div>
+<div class="flex justify-between items-center mt-2">
+  <p class="text-[#071437] ">{{'PNG, Size: 300 px * 300 px' | translate}} </p>
+  @if(badge && badgeLabel) {
+  <app-status-badge [status]="getSafeStatus(badge || '')" [label]="badgeLabel || ''"></app-status-badge> }
+</div>
+
+<div class="text-sm text-red-500 mt-2 space-y-1">
+  <div *ngIf="apiErrors['invalidType']">{{ 'invalidImageType' | translate }}</div>
+  <div *ngIf="apiErrors['tooLarge']">{{ 'imageTooLarge' | translate }}</div>
+  <div *ngIf="apiErrors['processingFailed']">{{ 'imageProcessingFailed' | translate }}</div>
+</div>

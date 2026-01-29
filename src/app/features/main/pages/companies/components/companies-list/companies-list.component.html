@@ -1,0 +1,73 @@
+<div class="flex flex-wrap justify-end items-center mb-4">
+  <div class="w-auto">
+    <app-custom-button
+      type="button"
+      label="Create New Company"
+      (click)="navigateByUrl('/companies/create-company')"
+    ></app-custom-button>
+  </div>
+</div>
+
+<div class="w-full">
+  <app-table
+    [loading]="loading"
+    [columns]="columns"
+    [data]="data"
+    [templates]="customTemplates"
+  ></app-table>
+</div>
+
+<ng-template #companyNameTemplate let-element="element">
+  <span class="font-[500] text-[#071437] block mb-2">{{ element?.name }}</span>
+  <span class="text-[#4B5675] font-[400]">{{ element?.code }}</span>
+</ng-template>
+
+<ng-template #emailTemplate let-element="element">
+  <div class="flex items-center gap-2">
+    <div>
+      <app-status-badge
+        [status]="element?.emailStatus === 'verified' ? 'active' : 'inactive'"
+        [label]="element?.emailStatus | titlecase"
+        badgeClass="text-sm"
+      ></app-status-badge>
+    </div>
+    <div class="font-[500] text-[#071437]">{{ element?.email }}</div>
+  </div>
+</ng-template>
+
+<ng-template #packageTemplate let-element="element">
+  <div class="flex items-center gap-2">
+    <div>
+      <app-status-badge
+        status="active"
+        [label]="element?.packageName | titlecase"
+        badgeClass="text-sm"
+      ></app-status-badge>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #statusTemplate let-element="element">
+  <app-status-badge
+    [status]="element?.accountStatus"
+    [label]="element?.accountStatus | titlecase"
+  ></app-status-badge>
+</ng-template>
+
+<ng-template #creationDateTemplate let-element="element">
+  <span>{{ element?.createdAt }}</span> <br />
+  <span class="text-xs text-[#4B5675]"
+    >{{ "by" | translate }} {{ element?.createdBy }}
+  </span>
+</ng-template>
+
+<ng-template #countryTemplate let-element="element">
+  <p>{{ element?.country }}</p>
+  <p class="text-[#4B5675] font-[400]">{{ element?.city }}</p>
+</ng-template>
+
+<ng-template #actionTemplate let-element="element">
+  <a class="underline cursor-pointer" (click)="blockAccount(element.id)">{{
+    "Block Account" | translate
+  }}</a>
+</ng-template>

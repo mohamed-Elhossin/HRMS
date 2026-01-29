@@ -1,0 +1,105 @@
+<app-title-page title="Super Admins"></app-title-page>
+<div class="flex flex-wrap gap-y-4 items-center mb-4">
+  <div>
+    <app-custom-input
+      type="text"
+      labelPosition="vertical"
+      icon="search"
+      iconPosition="start"
+      iconStyle="color:black; cursor:auto"
+      placeholder="Search Names"
+      (change)="onSearch($event)"
+    ></app-custom-input>
+  </div>
+  <div class="relative ms-auto">
+    <app-custom-button
+      type="button"
+      [label]="showDialog? 'Close Invitations' : 'Add Super Admin'"
+      labelClass="text-sm"
+      (click)="openDialog()"
+    ></app-custom-button>
+
+    <!-- Dialog Add Coupons / Discounts -->
+    @if (showDialog) {
+    <div class="absolute top-10 right-0 md:w-144 sm:w-128 w-80 h-full bg-white z-50 shadow-2xl">
+      <app-card cardClass="p-[1px] bg-white ">
+        <div class="text-center md:p-5 p-3">
+          <app-paragraph paragraphClass="font-[500] text-[16px]">{{
+            "New Super Admin" | translate
+          }}</app-paragraph>
+        </div>
+        <app-divider></app-divider>
+
+        <form [formGroup]="form" class="py-6 md:px-6 px-3">
+          <app-custom-input
+            label="Email"
+            [required]="true"
+            labelPosition="vertical"
+            labelClass="label-light-gray "
+            inputClass="w-full mb-6"
+            type="text"
+            formControlName="email"
+          ></app-custom-input>
+
+          <div class="flex justify-center">
+            <app-custom-button
+              type="button"
+              variant="primary"
+              labelClass="font-[400] w-full"
+              label="Send Invitation"
+              buttonClass="py-3 px-4"
+              (click)="onSubmit()"
+              [disabled]="!form.valid || loadingInvitation"
+              [loading]="loadingInvitation"
+              loadingText="inviting..."
+            ></app-custom-button>
+          </div>
+        </form>
+      </app-card>
+    </div>
+    }
+  </div>
+</div>
+
+<div>
+  <app-table
+    [loading]="loading"
+    [columns]="columns"
+    [data]="data"
+    [templates]="customTemplates"
+  ></app-table>
+</div>
+
+<!-- <ng-template #expirationTemplate let-element="element">
+    {{element?.expiration}}
+</ng-template> -->
+
+<ng-template #typeTemplate let-element="element">
+  <app-status-badge
+    [status]="element?.type"
+    [label]="element?.type | titlecase | translate"
+  ></app-status-badge>
+</ng-template>
+<ng-template #statusTemplate let-element="element">
+  <app-status-badge
+    [status]="
+      element?.status === 'notActive' ? 'not-verified' : element?.status
+    "
+    [label]="element?.status | titlecase | translate"
+  ></app-status-badge>
+</ng-template>
+
+<ng-template #actionTemplate let-element="element">
+  <a
+    (click)="onSuspendAdmin()"
+    class="text-[#123D9A]   border-b border-dashed border-[#123D9A] cursor-pointer me-2"
+    >{{ "Suspend Account" | translate }}</a
+  >
+  @if(!element.isMain){
+  <a
+    (click)="onDeleteAdmin()"
+    class="text-[#123D9A]  border-b border-dashed border-[#123D9A] cursor-pointer me-2"
+    >{{ "Delete" | translate }}</a
+  >
+  }
+</ng-template>

@@ -1,0 +1,22 @@
+.page-item {
+  cursor: pointer;
+}
+.page-item .page-number {
+  color: black;
+}
+.activePage .page-number {
+  background: black;
+  border-color: black;
+  color: white;
+}
+
+.navigator {
+  color: black;
+}
+.dropdown {
+  background: white;
+  color: black;
+  border: 1px solid #dee2e6;
+  padding: 2%;
+  border-radius: 5px;
+}

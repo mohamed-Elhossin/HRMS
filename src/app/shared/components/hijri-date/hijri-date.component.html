@@ -1,0 +1,64 @@
+@if (showPicker) {
+  <div #pickerContainer class="picker-popup absolute bg-white p-4 shadow-lg rounded">
+    <h3 class="text-center text-base font-bold mb-3">{{ "Select Hijri Date" | translate }}</h3>
+
+    <!-- Hijri Selectors -->
+    <div class="flex justify-between mb-3">
+      <select [(ngModel)]="selectedDay" class="w-1/3 px-2 py-1 border rounded" (change)="convertToGregorian()">
+        @for (d of days; track $index) {
+        <option [value]="d">{{ d }}</option>
+        }
+      </select>
+
+      <select [(ngModel)]="selectedMonth" class="w-1/3 px-2 py-1 border rounded mx-2" (change)="convertToGregorian()">
+        @for (m of months; track $index) {
+        <option [value]="m">{{ m }}</option>
+        }
+      </select>
+
+      <select [(ngModel)]="selectedYear" class="w-1/3 px-2 py-1 border rounded" (change)="convertToGregorian()">
+        @for (y of years; track $index) {
+        <option [value]="y">{{ y }}</option>
+        }
+      </select>
+    </div>
+
+    <!-- Gregorian Output as Selects -->
+    @if (gregorianOutput) {
+      <h3 class="text-center text-base font-bold mb-2">{{ 'Gregorian calendar' | translate }}</h3>
+
+      <div class="flex justify-between mb-3">
+        <select [(ngModel)]="gregorianDay" class="w-1/3 px-2 py-1 border rounded" (change)="convertToHijri()">
+          @for (d of days; track $index) {
+          <option [value]="d">{{ d }}</option>
+          }
+        </select>
+
+        <select [(ngModel)]="gregorianMonth" class="w-1/3 px-2 py-1 border rounded mx-2" (change)="convertToHijri()">
+          @for (m of months; track $index) {
+          <option [value]="m">{{ m }}</option>
+          }
+        </select>
+
+        <select [(ngModel)]="gregorianYear" class="w-1/3 px-2 py-1 border rounded" (change)="convertToHijri()">
+          @for (y of gregorianYears; track $index) {
+          <option [value]="y">{{ y }}</option>
+          }
+        </select>
+      </div>
+    }
+
+    <div class="text-center mt-3">
+      <button (click)="showPicker = false" class="close-btn px-4 py-1 rounded">{{'Close' | translate}}</button>
+    </div>
+  </div>
+}@else {
+<div class="hijri-date relative" (click)="openPicker($event)">
+    <span class="d-block w-100 text-center mt-auto">
+        <i class="fa-solid fa-arrows-repeat"></i>
+    </span>
+    <span class="d-block w-100 text-center mb-auto">
+        <i class="fa-solid fa-calendar-days"></i>
+    </span>
+</div>
+}

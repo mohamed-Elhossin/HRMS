@@ -1,0 +1,44 @@
+<section class="px-0 py-8">
+  <div class="flex flex-wrap sm:flex-nowrap gap-x-5 gap-y-3 mb-5">
+    <div class="w-full sm:w-8/12">
+      <app-custom-input
+        type="checkbox"
+        label="Enable Multi Login"
+        description="You can enable multi login using your account in multiple devices"
+      ></app-custom-input>
+    </div>
+    <div class="w-full sm:w-4/12 flex justify-end">
+      <app-custom-button
+        type="button"
+        label="Revoke All"
+        (click)="onRevokeAll()"
+      ></app-custom-button>
+    </div>
+  </div>
+  <div class="w-full">
+    <app-table
+      [loading]="loading"
+      [columns]="columns"
+      [data]="data"
+      [templates]="customTemplates"
+    ></app-table>
+  </div>
+
+  <ng-template #ipAddressTemplate let-element="element">
+    <div class="font-[500] text-[#071437]">{{ element?.ipAddress }}</div>
+    <div class="text-[#4B5675]">{{ element?.country }}</div>
+  </ng-template>
+
+  <ng-template #dateTemplate let-element="element">
+    {{ element?.date }} <br />
+    <span class="text-[#4B5675]">{{ element?.time }}</span>
+  </ng-template>
+
+  <ng-template #actionTemplate let-element="element">
+    <a
+      (click)="onRevokeSession(element?.id)"
+      class="text-black underline cursor-pointer me-2"
+      >{{ "Revoke Session" | translate }}</a
+    >
+  </ng-template>
+</section>

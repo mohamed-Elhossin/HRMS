@@ -1,0 +1,24 @@
+<nav class="flex flex-wrap items-center text-sm text-gray-500 dark:text-gray-300 gap-1 md:ps-10 pt-2">
+
+  @for(breadcrumb of breadcrumbs; track $index; let i = $index; let last = $last){
+  <ng-container>
+    @for(segment of breadcrumb.segments; track $index; let j = $index;){
+    <ng-container>
+
+        @if(!last){
+          <a [routerLink]="segment.url" class="font-medium hover:underline text-gray-400 hover:text-[#071437] transition duration-200">{{
+          segment.label | translate
+        }}</a>
+          <span class="text-gray-400">
+            <span [innerHTML]="appService.getLanguage() == 'en' ? appService.getIcons('chevronRight', 'font-size: 10px;') : appService.getIcons('chevronLeft', 'font-size: 10px;')"></span>
+          </span>
+        }@else {
+          <a class="font-medium  text-[#071437]">{{
+          segment.label | translate
+        }}</a>
+        }
+    </ng-container>
+    }
+  </ng-container>
+  }
+</nav>

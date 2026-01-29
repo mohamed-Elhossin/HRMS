@@ -1,0 +1,21 @@
+{
+  "dashboard":"داشبورد",
+  "errors": {
+    "required": "{{field}} مطلوب",
+    "minlength": "{{field}} يجب ان يكون على الاقل {{requiredLength}} أحرف",
+    "maxlength": "{{field}} لا يمكن ان يكون اكثر من {{requiredLength}} أحرف",
+    "min": "قيمة أدنى لـ {{field}} هي {{min}}",
+    "max": "قيمة أعلى لـ {{field}} هي {{max}}",
+    "pattern": "{{field}} الشكل غير صالح",
+    "validNumber": "{{field}} يجب ان يكون رقم صالح",
+    "nonEmptyString": "{{field}} لا يمكن ان يكون سلسلة فارغة",
+    "email": "البريد الإلكتروني غير صالح",
+    "passwordMismatch": "كلمتا المرور غير متطابقتين",
+    "unknown": "خطأ في التحقق",
+    "arabicLetters": "كلمات عربي فقط",
+    "endDateBeforeStartDate": "لا يمكن تحديد تاريخ الانتهاء قبل تاريخ البدء",
+    "fileTooMany": "يمكنك تحميل عدد محدود فقط من الملفات لـ {{field}}",
+    "invalidFileTypeOrSize": "فقط الصور التي تقل عن 0.7 ميغابايت مسموح بها لـ {{field}}",
+    "fileProcessingFailed": "حدث خطأ أثناء معالجة {{field}}"
+  }
+}

@@ -1,0 +1,38 @@
+@for (error of errors; track $index) {
+<div
+  class="w-full md:w-1/2 lg:max-w-[789px] mx-auto fixed inset-0 top-12 z-[10000] animate-slide-down"
+>
+  <div
+    class="flex items-start py-2 px-6 rounded-xl w-full"
+    [style]="getBgColor(error.bgColor)"
+  >
+    <!-- icon -->
+    <div class="me-4 mt-1">
+      <app-keenicon
+        [name]="styleIcon(error.icon).icon"
+        [style]="styleIcon(error.icon).style"
+      ></app-keenicon>
+    </div>
+    <!-- message -->
+    <div class="w-full">
+      <div class="flex items-center justify-between">
+        <div>
+          <p [class]="getTextColor(error.textColor) + ' font-semibold text-lg'">
+            {{ error.title | translate }}
+          </p>
+        </div>
+        <div (click)="removeError(error.id)">
+          <app-keenicon
+            name="plus"
+            style="cursor: pointer; color: #000; transform: rotate(45deg); font-size: 30px;"
+            class="hover:text-white transition-all duration-300 ease-in-out"
+          ></app-keenicon>
+        </div>
+      </div>
+      <p [class]="getTextColor(error.textColor) + ' font-[400]'">
+        {{ error.message | translate }}
+      </p>
+    </div>
+  </div>
+</div>
+}

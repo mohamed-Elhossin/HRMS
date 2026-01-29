@@ -1,0 +1,176 @@
+<ng-container *ngIf="loading; else content">
+  <app-loader></app-loader>
+</ng-container>
+
+<ng-template #content>
+  <app-card cardClass="p-[0px] overflow-x-auto border-[#F1F1F4]">
+    <table
+      class="min-w-full table-fixed divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-900 text-nowrap"
+      style="table-layout: fixed !important"
+    >
+      <thead class="bg-gray-50 dark:bg-gray-800 sticky top-0 z-10">
+        <tr class="divide-x divide-gray-100 dark:divide-gray-800">
+          <th
+            *ngFor="let col of columns"
+            class="relative p-3 text-left font-normal text-[#4B5675] dark:text-gray-200 align-top divide-x divide-gray-100 dark:divide-gray-800"
+            [ngStyle]="{ 'min-width': col.width || 'auto' }"
+          >
+            <div class="flex items-center justify-between">
+              <div
+                class="flex items-center gap-1 cursor-pointer"
+                (click)="setSort(col.key)"
+                title="Click to sort"
+              >
+                <span>{{ col.label | translate }}</span>
+                <ng-container>
+                  <!-- <span
+                    *ngIf="sortColumn !== col.key"
+                    [innerHTML]="
+                      appService.getIcons('sort', 'font-size: 20px;color: gray')
+                    "
+                  ></span> -->
+                  <!-- <span
+                    *ngIf="sortColumn === col.key && sortDirection === 'asc'"
+                    [innerHTML]="
+                      appService.getIcons(
+                        'sortUp',
+                        'font-size: 20px;color: #3b82f6'
+                      )
+                    "
+                  ></span> -->
+                  <!-- <span
+                    *ngIf="sortColumn === col.key && sortDirection === 'desc'"
+                    [innerHTML]="
+                      appService.getIcons(
+                        'sortDown',
+                        'font-size: 20px;color: #3b82f6'
+                      )
+                    "
+                  ></span> -->
+                </ng-container>
+              </div>
+
+              <button
+                (click)="toggleFilterInput(col.key); $event.stopPropagation()"
+                [ngClass]="{
+                  'text-blue-600': filters[col.key],
+                  'text-gray-500 dark:text-gray-300': !filters[col.key]
+                }"
+                class="hover:text-blue-600"
+                title="Toggle filter"
+              >
+                <!-- <span
+                  [innerHTML]="
+                    appService.getIcons(
+                      filters[col.key] ? 'filterXmark' : 'filter',
+                      'font-size: 20px'
+                    )
+                  "
+                ></span> -->
+              </button>
+            </div>
+
+            <div
+              *ngIf="showFilterInput[col.key]"
+              class="filter-dropdown absolute z-10 mt-2 right-0 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded shadow-lg p-4 w-64 animate-fade-in"
+              (click)="$event.stopPropagation()"
+            >
+              <input
+                *ngIf="
+                  col.type === 'text' ||
+                  col.type === 'date' ||
+                  col.type === 'number'
+                "
+                #filterInput
+                [type]="col.type"
+                [(ngModel)]="filters[col.key]"
+                (input)="applyFilters()"
+                class="w-full mb-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 px-2 h-10 py-1 text-sm"
+                placeholder="search..."
+              />
+
+              <div *ngIf="col.type === 'range'">
+                <input
+                  type="range"
+                  min="18"
+                  max="65"
+                  [(ngModel)]="filters[col.key]"
+                  (input)="applyFilters()"
+                  class="w-full mb-2"
+                />
+                <div
+                  class="text-xs text-gray-500 dark:text-gray-300 text-right"
+                >
+                  Value: {{ filters[col.key] }}
+                </div>
+              </div>
+
+              <select
+                *ngIf="col.type === 'select'"
+                [(ngModel)]="filters[col.key]"
+                (change)="applyFilters()"
+                class="w-full mb-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 px-2 h-10 text-sm"
+              >
+                <option value="">{{ "All" | translate }}</option>
+                <option *ngFor="let opt of col.options" [value]="opt">
+                  {{ opt }}
+                </option>
+              </select>
+
+              <button
+                type="button"
+                (click)="clearFilter(col.key)"
+                class="w-full text-center text-sm text-red-600 hover:underline"
+              >
+                {{ "Clear Filter" | translate }}
+              </button>
+            </div>
+          </th>
+        </tr>
+      </thead>
+
+      <tbody
+        class="divide-y divide-gray-100 dark:divide-gray-800"
+        [@listAnimation]="filteredData.length"
+      >
+        <!-- <tr
+          *ngFor="let row of filteredData"
+          class="hover:bg-gray-50 dark:hover:bg-gray-800 divide-x divide-gray-100 dark:divide-gray-800"
+        > -->
+        <tr
+          *ngFor="let row of filteredData; let i = index"
+          [ngClass]="i % 2 === 0 ? 'bg-white' : 'bg-[#F8F8F8]'"
+          class="hover:bg-gray-50 dark:hover:bg-gray-800 divide-x divide-gray-100 dark:divide-gray-800"
+        >
+          <td
+            *ngFor="let col of columns"
+            class="p-3 text-sm font-[500] text-[#071437] dark:text-gray-100 py-5"
+          >
+            <ng-container
+              *ngIf="
+                col.custom && col.templateKey && templates[col.templateKey];
+                else defaultCell
+              "
+            >
+              <ng-container
+                [ngTemplateOutlet]="templates[col.templateKey]"
+                [ngTemplateOutletContext]="{ element: row }"
+              ></ng-container>
+            </ng-container>
+            <ng-template #defaultCell>
+              {{ getNestedValue(row, col.key) || "-" }}
+            </ng-template>
+          </td>
+        </tr>
+        <tr *ngIf="!filteredData.length">
+          <td
+            [attr.colspan]="columns.length"
+            class="p-4 text-center text-gray-500 dark:text-gray-400"
+          >
+            {{ "No data found." | translate }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </app-card>
+</ng-template>

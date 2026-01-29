@@ -1,0 +1,21 @@
+<div class="mb-5">
+  <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
+    {{ title | translate }}
+  </h1>
+  <p class="text-[#4B5675] flex items-center">
+    {{ "Welcome" | translate }}
+    {{ authService.getUserName() | titlecase }}
+    <span
+      style="margin-bottom: 5px"
+      [innerHTML]="
+        appService.getIcons(
+          'dot',
+          'font-size: 3px;color:#4B5675;margin-right: 5px; margin-left: 5px;'
+        )
+      "
+    ></span>
+    <a class="text-[#123D9A] cursor-pointer border-b border-dashed border-[#123D9A]" (click)="logout()">{{
+      "Logout" | translate
+    }}</a>
+  </p>
+</div>

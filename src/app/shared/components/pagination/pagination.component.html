@@ -1,0 +1,85 @@
+@if(totalItemsCount >= 10){
+<nav aria-label="Page navigation" class="navigation">
+  <div class="row">
+    <div class="col-md-4">
+      <ul class="pagination">
+        <!-- Previous button -->
+        <li class="page-item mx-2" [class.disabled]="currentPage === 1">
+          <a
+            class="page-link navigator"
+            (click)="navigateTo(currentPage - 1)"
+            aria-label="Previous"
+          >
+          <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        @for(page of calculatePages(); track $index;){
+        <!-- Page number links -->
+        <li
+          class="page-item mx-2 mb-2"
+          [class.activePage]="currentPage === page"
+        >
+          <a
+            class="page-link page-number"
+            (click)="navigateTo(page)"
+            aria-label="Previous"
+            >{{ page }}</a
+          >
+        </li>
+        }
+        <!-- Next button -->
+        <li
+          class="page-item mx-2"
+          [class.disabled]="currentPage === totalPages"
+        >
+          <a
+            class="page-link navigator"
+            (click)="navigateTo(currentPage + 1)"
+            aria-label="Next"
+            aria-label="Previous"
+          >
+          <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="col-md-5 text-center">
+      <p class="mb-0 almarai-regular fc-darkPurple">
+        {{"Pagination.show" | translate}} 1 {{"Pagination.to" | translate}} {{ per_page }} {{"Pagination.of" | translate}} {{ totalItemsCount }} {{"Pagination.record" | translate}}
+      </p>
+    </div>
+
+    <div class="col-md-3">
+      @if(totalItemsCount > perPageOptions[0]){
+      <div class="d-flex align-items-center gap-2 justify-content-end">
+        <p class="mb-0">{{"Pagination.show" | translate}}</p>
+        <div class="dropdown">
+          <div
+            class="dropdown-toggle dropdownSelect"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <!-- <i class="fa-solid fa-chevron-down"></i> -->
+            {{ per_page }}
+          </div>
+
+          <ul class="dropdown-menu px-2">
+            @for(option of perPageOptions; track $index;){
+            <li>
+              <a class="dropdown-item" (click)="onPerPageChange(option)">
+                {{ option }}
+              </a>
+            </li>
+            }
+          </ul>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+
+  <!-- Items per page selection -->
+</nav>
+}

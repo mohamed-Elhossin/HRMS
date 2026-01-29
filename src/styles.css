@@ -1,0 +1,93 @@
+
+@import "./assets/vendors/keenicons/duotone/style.css";
+@import "./assets/vendors/keenicons/outline/style.css";
+@import "./assets/vendors/keenicons/solid/style.css";
+
+/* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* .card-dark {
+  @apply bg-[#0D0E12] text-white border border-[#26272F] p-6 rounded-xl;
+} */
+
+.custom-input-dark {
+  @apply bg-[#363843] border border-[#4e5162] text-white mb-4;
+}
+
+.label-light-gray {
+  @apply text-[#4B5675];
+}
+.btn-sidebar {
+  @apply bg-white shadow-md p-0 border-[2px] border-[#F1F1F4] rounded-[8px] w-10 h-10 flex items-center justify-center;
+}
+.label-sidebar {
+  @apply text-[#4B5675];
+}
+
+*:not(i) {
+  font-family: Inter !important;
+}
+
+.minimize-sidebar {
+  right: -20px;
+}
+.custom-shadow {
+  box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.03);
+}
+
+.default-bg-color {
+  background-color: #303030;
+}
+
+.custom-input-dark + span {
+  margin-top: -6px;
+}
+
+
+/* .p-multiselect.p-element.searchFilterForm, */
+
+.p-element.searchSelect .p-dropdown input.p-dropdown-filter-container,
+.p-element.searchSelect .p-dropdown {
+  border: 1px solid rgb(209, 213, 219) !important;
+  border-radius: 0.375rem;
+  width: 100%;
+  background-color: rgb(249, 250, 251);
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.p-element.searchSelect .p-dropdown .p-inputtext{
+  padding: 8px 16px;
+}
+.p-element.searchSelect .p-dropdown input.p-dropdown-filter-container,
+.p-element.searchSelect .p-dropdown::placeholder {
+  color: rgb(107, 114, 128)
+}
+.p-element.searchSelect .p-dropdown input.p-dropdown-filter-container:focus,
+.p-dropdown:not(.p-disabled).p-focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 1px #0000002f;
+  border-color: rgb(107, 114, 128)
+}
+
+/* ========================================== */
+
+
+/* RTL */
+html[dir="rtl"] {
+  .minimize-sidebar {
+    left: -20px;
+    right: unset;
+  }
+}
+
+
+
+
+
+
+/* ========================================== */

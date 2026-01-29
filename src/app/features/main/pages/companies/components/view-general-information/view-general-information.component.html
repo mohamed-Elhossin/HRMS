@@ -1,0 +1,91 @@
+<section>
+  <div class="py-16">
+    <form [formGroup]="form" class="flex flex-wrap items-center gap-y-5">
+      <div class="w-full lg:w-7/12 order-2 lg:order-1 px-2 flex flex-wrap">
+        <div class="w-full mb-8">
+          <app-custom-input
+            type="text"
+            formControlName="companyName"
+            label="Company Name"
+            description="Company Full Name"
+          ></app-custom-input>
+        </div>
+        <div class="w-full mb-8">
+          <app-custom-select
+            type="prime"
+            [placeholder]="'Select Country' | translate"
+            formControlName="country"
+            [filter]="true"
+            [filterBy]="appService.getLanguage() == 'en' ? 'name' : 'nameAr'"
+            [showClear]="true"
+            label="Country"
+            description="Select From Country List"
+            [optionLabel]="appService.getLanguage() == 'en' ? 'name' : 'nameAr'"
+            optionValue="id"
+            [options]="countries"
+          ></app-custom-select>
+        </div>
+        <div class="w-full mb-8">
+          <app-custom-select
+            type="prime"
+            [placeholder]="'Select City' | translate"
+            formControlName="city"
+            [filter]="true"
+            [filterBy]="appService.getLanguage() == 'en' ? 'name' : 'nameAr'"
+            [showClear]="true"
+            label="City"
+            description="Select From Cities List"
+            [optionLabel]="appService.getLanguage() == 'en' ? 'name' : 'nameAr'"
+            optionValue="id"
+            [options]="cities"
+          ></app-custom-select>
+        </div>
+        <div class="w-full mb-5">
+          <app-custom-select
+            type="prime"
+            [placeholder]="'Select Package' | translate"
+            [filter]="true"
+            formControlName="package"
+            [filterBy]="appService.getLanguage() == 'en' ? 'name' : 'nameAr'"
+            [showClear]="true"
+            label="Packages"
+            description="Package Selected for the company"
+            [optionLabel]="appService.getLanguage() == 'en' ? 'name' : 'nameAr'"
+            optionValue="id"
+            [options]="packages"
+            hint="Connot be changed"
+            hintClass="text-end"
+          ></app-custom-select>
+        </div>
+        <div class="w-full">
+          <app-custom-input
+            type="email"
+            hint="Connot be changed"
+            hintClass="text-end"
+            label="Business Email"
+            formControlName="businessEmail"
+            description="Email super user"
+          ></app-custom-input>
+        </div>
+      </div>
+      <div class="w-full lg:w-5/12 order-1 lg:order-2 px-2">
+        <app-profile-image-upload
+        accept="image/png, image/jpeg"
+        formControlName="profileImage"
+        ></app-profile-image-upload>
+      </div>
+
+      <div class="w-full order-12 mt-48">
+        <div class="flex justify-center">
+          <div class="w-48 max-w-xs">
+            <app-custom-button
+              label="Save Changes"
+              type="submit"
+              (click)="onSubmit()"
+            ></app-custom-button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>

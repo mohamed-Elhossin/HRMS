@@ -1,0 +1,19 @@
+{
+  "dashboard" :"Dashboard",
+  "errors": {
+    "required": "{{field}} is required",
+    "minlength": "{{field}} must be at least {{requiredLength}} characters long",
+    "maxlength": "{{field}} cannot exceed {{requiredLength}} characters",
+    "min": "Minimum value for {{field}} is {{min}}",
+    "max": "Maximum value for {{field}} is {{max}}",
+    "pattern": "{{field}} format is invalid",
+    "validNumber": "{{field}} must be a valid number",
+    "nonEmptyString": "{{field}} cannot be empty",
+    "email": "Invalid email format",
+    "passwordMismatch": "Passwords do not match",
+    "unknown": "Validation error",
+    "arabicLetters": "Arabic letters only",
+    "englishLetters": "English letters only",
+    "endDateBeforeStartDate": "Must be replaced with Cannot make the end date before the start date"
+  }
+}

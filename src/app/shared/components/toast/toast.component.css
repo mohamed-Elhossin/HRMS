@@ -1,0 +1,21 @@
+.alert {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 15px;
+  width: 75%;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+
+
+.message {
+  flex-grow: 1;
+}
+
+
+.close {
+  cursor: pointer;
+  font-size: 18px;
+}

@@ -1,0 +1,18 @@
+<!-- @let isMinimize = sidebarService.isCollapsed$() | async; -->
+
+<div class="flex min-h-screen ">
+  <!-- Sidebar -->
+  <app-sidebar></app-sidebar>
+
+
+  <!-- Main content -->
+  <div class="flex flex-col flex-1 min-w-0 md:ps-10 md:pe-4">
+    <app-header class="sticky top-0 z-40"></app-header>
+
+    <div class="flex-1 px-6 md:px-10 pt-4 pb-6 overflow-auto">
+      <router-outlet></router-outlet>
+    </div>
+
+    <!-- <app-footer class="border-t sticky bottom-0  border-gray-200 dark:border-gray-700 px-4 py-2"></app-footer> -->
+  </div>
+</div>

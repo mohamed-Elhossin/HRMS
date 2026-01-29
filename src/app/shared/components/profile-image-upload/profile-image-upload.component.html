@@ -1,0 +1,63 @@
+<div class="flex flex-col items-center gap-4">
+  <!-- صورة المعاينة -->
+  <div
+    class="relative w-32 h-32 rounded-full  inner-border shadow-md"
+  >
+    @if(previewUrl){
+    <img [src]="previewUrl" class="w-full h-full object-cover rounded-full" alt="Preview" />
+    } @else {
+    <div
+      class="w-full h-full bg-gray-100 flex items-center  rounded-full justify-center text-gray-400"
+    >
+      <span class="text-sm">{{"No image" | translate}}</span>
+    </div>
+    }
+
+    <!-- زر حذف -->
+    @if(previewUrl){
+    <button
+      (click)="removeImage()"
+      class="absolute top-0 right-3 w-6 h-6 z-10 rounded-full bg-white text-gray-300 border-2 border-gray-300 shadow hover:bg-gray-200 flex items-center justify-center"
+    >
+       <i  class="ki-solid ki-cross"></i>
+    </button>
+    }
+
+    <!-- أيقونة الكاميرا -->
+    <label
+      for="fileInput"
+      class="absolute bottom-0 opacity-75 left-1/2 -translate-x-1/2 bg-transparent w-14 h-8 rounded-full flex items-center justify-center cursor-pointer hover:opacity-100"
+    >
+      <span [innerHTML]="appService.getIcons('cameraSolid', 'color: #fff; opacity: 1;')"></span>
+    </label>
+  </div>
+
+  <!-- تعليمات -->
+<div class="text-center">
+    <p class="text-sm text-gray-500">{{"300px X 300px JPEG, PNG Image" | translate}}</p>
+  @if(validationMessage?.size){
+    <app-paragraph paragraphClass="text-red-600 text-xs">{{validationMessage?.size | translate}}</app-paragraph>
+  }
+  @if(validationMessage?.type){
+    <app-paragraph paragraphClass="text-red-600 text-xs">{{validationMessage?.type | translate}}</app-paragraph>
+  }
+
+</div>
+  <!-- زر رفع الصورة -->
+  <button
+    (click)="triggerFileInput()"
+    class="bg-gray-700 text-white px-4 py-2 rounded hover:bg-gray-800"
+  >
+    {{"Upload Logo" | translate}}
+  </button>
+
+  <!-- input مخفي -->
+  <input
+    type="file"
+    [accept]="accept"
+    id="fileInput"
+    class="hidden"
+    [disabled]="disabled"
+    (change)="onFileSelected($event)"
+  />
+</div>

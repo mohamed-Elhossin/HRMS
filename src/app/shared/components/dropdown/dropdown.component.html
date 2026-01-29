@@ -1,0 +1,50 @@
+<div class="relative inline-block text-end w-10 bg-red dropdown-container">
+  <button
+    (click)="toggleDropdown()"
+    class="bg-transparent w-full text-center"
+    aria-expanded="false"
+  >
+    @if(togglerIconPosition == 'start'){
+    <span [innerHTML]="appService.getIcons(togglerIcon)"></span>
+    } @if(togglerTitle){
+    <span [ngClass]="togglerIconPosition == 'start' ? 'ps-2' : 'pe-2'">{{
+      togglerTitle | translate
+    }}</span>
+    } @if(togglerIconPosition == 'end'){
+    <span [innerHTML]="appService.getIcons(togglerIcon)"></span>
+    }
+  </button>
+
+  @if (open) {
+  <div
+    class="origin-top-end absolute end-0 mt-2 w-fit rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-[1016516515]"
+  >
+    <div class="py-1" role="menu" aria-orientation="vertical">
+      @for(item of items; track $index){
+      <a
+        [class]="
+          'block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ' +
+          item.itemClass
+        "
+        role="menuitem"
+        [routerLink]="item.link"
+      >
+        @if(item.icon && (item.iconPosition == 'start' || true)){
+        <span
+          [innerHTML]="appService.getIcons(item.icon, item.iconStyle)"
+        ></span>
+        } @if(item.title){
+        <span [ngClass]="item.iconPosition == 'start' ? 'ps-2' : 'pe-2'">
+          {{ item.title }}
+        </span>
+        } @if(item.icon && item.iconPosition == 'end'){
+        <span
+          [innerHTML]="appService.getIcons(item.icon, item.iconStyle)"
+        ></span>
+        }
+      </a>
+      }
+    </div>
+  </div>
+  }
+</div>

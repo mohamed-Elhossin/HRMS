@@ -1,0 +1,93 @@
+<section class="flex flex-wrap py-12">
+
+  <div class="w-full lg:w-2/3">
+    <form [formGroup]="form" class="flex flex-col gap-5">
+      <div>
+        <app-custom-input
+          label="Account Name"
+          description="User Full Name"
+          [required]="true"
+          type="text"
+          formControlName="accountName"
+          [errorMessage]="getErrorMessage('accountName', 'account')"
+        ></app-custom-input>
+      </div>
+
+      <div>
+        <app-custom-input
+          label="Contact Email"
+          description="This email will be used for Login"
+          [required]="true"
+          type="text"
+          badge="active"
+          badgeLabel="Verified"
+          formControlName="contactEmail"
+          [errorMessage]="getErrorMessage('contactEmail', 'email')"
+        ></app-custom-input>
+      </div>
+
+      <div>
+        <app-custom-select
+              type="prime"
+              [required]="true"
+              description="Select from countries List"
+              label="Country"
+              formControlName="country"
+              optionLabel="label"
+              [filter]="true"
+              filterBy="label"
+              optionValue="country_id"
+              [options]="countries"
+              [errorMessage]="getErrorMessage('country')"
+            ></app-custom-select>
+      </div>
+
+      <div>
+        <app-custom-input
+          label="Phone"
+          description="Select from countries List"
+          [required]="true"
+          type="mobile"
+          [numberOnly]="true"
+          badge="not-verified"
+          badgeLabel="Not Verified"
+          formControlName="phone"
+          [errorMessage]="getErrorMessage('phone')"
+          countryCode="02"
+        ></app-custom-input>
+      </div>
+
+      <div>
+        <app-custom-input
+          label="Position"
+          description="Add your Position"
+          type="text"
+          formControlName="position"
+          [errorMessage]="getErrorMessage('position')"
+        ></app-custom-input>
+      </div>
+
+      <div>
+        <app-custom-input
+          label="Role"
+          formControlName="role"
+          description="Selected Role"
+          type="text"
+          [errorMessage]="getErrorMessage('role')"
+        ></app-custom-input>
+      </div>
+
+      <div class="flex justify-center">
+        <div class="w-48 max-w-xs">
+          <app-custom-button
+            label="Save Changes"
+            type="submit"
+            [disabled]="!form.valid"
+            (click)="onSubmit()"
+          ></app-custom-button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+</section>

@@ -1,0 +1,39 @@
+<section>
+  <div class="flex justify-end items-center mb-4">
+    <app-custom-select
+      type="default"
+      optionLabel="label"
+      filterBy="label"
+      optionValue="value"
+      [options]="status"
+    ></app-custom-select>
+  </div>
+  <div class="w-full">
+    <app-table
+      [loading]="loading"
+      [columns]="columns"
+      [data]="data"
+      [templates]="customTemplates"
+    ></app-table>
+  </div>
+
+  <ng-template #countryTemplate let-element="element">
+    <p>{{ element?.country }}</p>
+    <p class="text-[#4B5675] font-[400]">{{ element?.city }}</p>
+  </ng-template>
+
+  <ng-template #actionTemplate let-element="element">
+    <div class="flex justify-center items-center gap-2">
+      <div
+        class="cursor-pointer hover:text-[#123d9a] hover:scale-110 ease-in-out duration-300"
+      >
+        <app-keenicon name="disconnect" class="text-[20px]"></app-keenicon>
+      </div>
+      <div
+        class="cursor-pointer hover:text-[#123d9a] hover:scale-110 ease-in-out duration-300"
+      >
+        <app-keenicon name="fingerprint-scanning" class="text-[20px]"></app-keenicon>
+      </div>
+    </div>
+  </ng-template>
+</section>

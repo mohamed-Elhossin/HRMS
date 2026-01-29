@@ -1,0 +1,25 @@
+@if(icon && iconPosition == 'start'){
+<app-keenicon
+  [name]="icon"
+  [class]="'me-1 '+ iconClass"
+  [iconStyle]="iconStyle"
+></app-keenicon>
+}
+<span class="text-[#414E5D] font-light" [ngClass]="personalInfoClass">
+  <ng-content></ng-content>
+</span>
+@if(badge){
+<app-status-badge
+  [status]="badgeStatus"
+  [label]="badgeLabel"
+  [badgeClass]="badgeClass"
+  [badgeStyle]="badgeStyle"
+></app-status-badge>
+} @if(icon && iconPosition == 'end'){
+<app-keenicon
+  [name]="icon"
+  [class]="'ms-1 '+ iconClass"
+  [iconStyle]="iconStyle"
+></app-keenicon>
+
+}

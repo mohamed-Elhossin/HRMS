@@ -1,0 +1,36 @@
+@if (show) {
+<div (click)="onClose()" class="fixed inset-0 bg-black flex items-center justify-center z-50 "
+    [ngClass]="backgroundClass ? backgroundClass : 'bg-opacity-50'">
+    <!-- Modal Box -->
+    <div (click)="$event.stopPropagation()" class="bg-white dark:bg-gray-900 rounded-2xl shadow-xl w-full p-4 mx-4 "
+        [ngClass]="modalClass ? modalClass : 'max-w-md'">
+        @if(isHeader){
+            <div class="flex justify-end">
+                <app-custom-button type="button" icon="circleXmark" (click)="onClose()"></app-custom-button>
+            </div>
+        }
+
+        <!-- Title -->
+         @if (isTitle) {
+             <h2 class="text-xl font-semibold mb-5">
+                 <span [innerHTML]="appService.getIcons(icon,'margin-inline: 5px;font-size: 18px')"></span>
+                 {{ title | translate }}
+             </h2>
+         }
+
+        <!-- Content from Parent -->
+        <ng-content></ng-content>
+
+        @if (isFooter) {
+        <!-- Footer -->
+        <div class="flex justify-start space-x-2 mt-6">
+            <div class="w-full">
+                <app-custom-button type="button" label="save" [disabled]="isDisabled"
+                    (click)="onSubmit()"></app-custom-button>
+            </div>
+        </div>
+        }
+    </div>
+</div>
+
+}

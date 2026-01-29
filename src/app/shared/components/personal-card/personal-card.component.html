@@ -1,0 +1,38 @@
+<div class="py-10 profile-bg">
+  <div class="rounded-full sm:w-8/12 md:w-6/12 lg:w-4/12 xl:w-3/12 mx-auto inner-border">
+    <img src="/img/avatar.png" alt="Profile-picture" title="Rania Salem profile picture" class="rounded-full" />
+  </div>
+  <div class="flex justify-center flex-wrap gap-x-5 mt-1">
+    <div class="w-full text-center mb-1">
+      <app-personal-info
+        icon="badgeCheck"
+        iconPosition="end"
+        iconClass="text-green-600"
+        personalInfoClass="text-xl font-[600]"
+        >Rania Salem</app-personal-info
+      >
+    </div>
+    <div>
+      <app-personal-info icon="abstract-41" iconClass="text-gray-400">{{
+        "Super Admin" | translate
+      }}</app-personal-info>
+    </div>
+    <div>
+      <app-personal-info
+        icon="geolocation"
+        iconClass="text-gray-400"
+        [badge]="true"
+        badgeStatus="active"
+        badgeLabel="Active"
+        badgeClass="bg-transparent border-0 font-semibold px-[0px] ms-1"
+        >{{ "Account" | translate }}</app-personal-info
+      >
+    </div>
+    <div>
+      <app-personal-info icon="sms" iconClass="text-gray-400">rani&#64;gmail.com</app-personal-info>
+    </div>
+    <div class="w-full text-center">
+      <a class="text-gray-500 underline hover:cursor-pointer">Switch to Swalac</a>
+    </div>
+  </div>
+</div>

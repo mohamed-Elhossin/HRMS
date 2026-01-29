@@ -1,0 +1,11 @@
+<div *ngIf="toasts.length > 0" class="fixed inset-0 bg-black bg-opacity-50 z-[10000]">
+  <div class="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-[10001]  space-y-2 w-full" [ngClass]="{'rtl': appService.getDirection() === 'rtl' }">
+    <div *ngFor="let toast of toasts" class="flex justify-center">
+      <div class="alert" [ngClass]="toast.type">
+        <span class="icon mx-2" [innerHTML]="appService.getIcons(toast.type,'color: #a43636;')"> </span>
+        <span class="message" [ngClass]="toast.type">{{toast.message | translate}}</span>
+        <span (click)="removeToast(toast.id)" class="close" [innerHTML]="appService.getIcons('close')"> </span>
+      </div>
+    </div>
+  </div>
+</div>

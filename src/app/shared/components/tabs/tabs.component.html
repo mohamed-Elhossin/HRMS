@@ -1,0 +1,19 @@
+<section class="overflow-x-auto">
+  <nav class="flex border-b border-gray-200 gap-16">
+    @for (tab of tabs; track $index) {
+      <a
+        [routerLink]="tab?.url"
+        routerLinkActive="border-b-2 border-[#414E5D] text-[#414E5D] font-semibold"
+        [routerLinkActiveOptions]="{ exact: true }"
+        [class.pointer-events-none]="tab.disabled"
+        class="pb-4  -mb-px text-sm  transition duration-200 text-nowrap"
+        [ngClass]="{
+          'text-[#4B5675]': !tab.disabled,
+          'text-gray-400 cursor-not-allowed': tab.disabled
+        }"
+      >
+        {{ tab.label  | translate }}
+      </a>
+    }
+  </nav>
+</section>

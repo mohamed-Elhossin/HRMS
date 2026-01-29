@@ -1,0 +1,19 @@
+
+@media (max-width:1024px) {
+  .sidebar-fly{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+}
+}
+.active {
+  color: #fff;
+}
+.sidebar-color {
+  background-color: #303030;
+}
+
+a.active .sidebar-color {
+  background-color: #fff;
+}
