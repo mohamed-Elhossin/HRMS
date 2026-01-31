@@ -1,11 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { CustomInputComponent } from '../../../../../../shared/components/custom-input/custom-input.component';
-import { CustomSelectComponent } from '../../../../../../shared/components/custom-select/custom-select.component';
-import { AppService } from '../../../../../../core/services/app.service';
-import { TranslateModule } from '@ngx-translate/core';
-import { CustomButtonComponent } from '../../../../../../shared/components/custom-button/custom-button.component';
-import { ParagraphComponent } from '../../../../../../shared/components/paragraph/paragraph.component';
-import { ValidationService } from '../../../../../../core/services/validation.service';
 import {
   FormGroup,
   FormBuilder,
@@ -13,173 +6,141 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { KeeniconComponent } from '../../../../../../shared/components/keenicon/keenicon.component';
-import { PasswordGeneratorService } from '../../../../../../shared/services/password-generator.service';
-import { RouterLink } from '@angular/router';
-import { ICountry } from '../../../../../../core/interfaces/country';
-import { BasicDataService } from '../../../../../../core/services/basic-data.service';
-import { ICity } from '../../../../../../core/interfaces/city';
-import { IPackage } from '../../../../../../core/interfaces/package';
+import { RouterLink, Router } from '@angular/router';
+
+import { CustomInputComponent } from '../../../../../../shared/components/custom-input/custom-input.component';
+import { CustomButtonComponent } from '../../../../../../shared/components/custom-button/custom-button.component';
+import { ErrorService } from '../../../../../../shared/services/error.service';
+import { CompaniesService } from '../../../../../../core/services/companies.service';
+import { FileUploadComponent } from '../../../../../../shared/components/file-upload/file-upload.component';
 
 @Component({
   selector: 'app-add-company',
   imports: [
     CustomInputComponent,
-    CustomSelectComponent,
-    TranslateModule,
     CustomButtonComponent,
-    ParagraphComponent,
-    KeeniconComponent,
     ReactiveFormsModule,
-    RouterLink
+    RouterLink,
+    FileUploadComponent,
   ],
   templateUrl: './add-company.component.html',
   styleUrl: './add-company.component.css',
 })
 export class AddCompanyComponent implements OnInit, OnDestroy {
-  countries: ICountry[] = []
-  cities: ICity[] = [];
-  packages: IPackage[] = [];
-
-  subscriptions: Subscription = new Subscription();
   form: FormGroup = new FormGroup({});
-  apiErrors: { [key: string]: boolean } = {};
-  passwordPattern: { valid: boolean; message: string }[] = [];
+  subscriptions: Subscription = new Subscription();
 
   constructor(
-    public appService: AppService,
-    private validationService: ValidationService,
     private fb: FormBuilder,
-    private passwordService: PasswordGeneratorService,
-    private basicDataService: BasicDataService
-  ) {
-    this.passwordPattern = [
-      {
-        valid: false,
-        message: 'Minimum 8 Character',
-      },
-      {
-        valid: false,
-        message: 'Include at least 1 Digit',
-      },
-      {
-        valid: false,
-        message: 'Include at least 1 Uppercase',
-      },
-      {
-        valid: false,
-        message: 'Include at least 1 Special Character',
-      },
-    ];
-  }
+    private errorService: ErrorService,
+    private companiesService: CompaniesService,
+    private router: Router,
+  ) {}
 
-  ngOnInit() {
-    this.getCountries();
-    this.getCities();
-    this.getPackages();
+  ngOnInit(): void {
     this.createForm();
   }
 
-  createForm() {
+  createForm(): void {
     this.form = this.fb.group({
-      companyName: ['', [Validators.required]],
-      country: [null, [Validators.required]],
-      city: [null, [Validators.required]],
-      package: [null, [Validators.required]],
-      businessEmail: ['', [Validators.required, Validators.email]],
-      password: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(8),
-          Validators.maxLength(200),
-          Validators.pattern(
-            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&()/\\_])[A-Za-z\d@$!%*?&()/\\_]{8,}$/
-          ),
-        ],
-      ],
-      agree: [false, [Validators.required]],
+      name: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      phone: ['', [Validators.required]],
+      address: ['', [Validators.required]],
+      city: ['', [Validators.required]],
+      state: ['', [Validators.required]],
+      zip: ['', [Validators.required]],
+      country: ['', [Validators.required]],
+      sector: ['', [Validators.required]],
+      agree: [false, [Validators.requiredTrue]],
     });
+  }
+  // في AddCompanyComponent
+  // في AddCompanyComponent class
+  logoFile: File | null = null;
+  logoPreviewUrl: string = '';
 
-    const newPasswordControl = this.form.get('password');
-    if (newPasswordControl) {
-      this.subscriptions.add(
-        newPasswordControl.valueChanges.subscribe((value: string) => {
-          this.passwordPattern[0].valid = value.length >= 8;
-          this.passwordPattern[1].valid = /[0-9]/.test(value);
-          this.passwordPattern[2].valid = /[A-Z]/.test(value);
-          this.passwordPattern[3].valid = /[@$!%*?&()/\\_]/.test(value);
-        })
+  onLogoChange(file: File | null): void {
+    if (file) {
+      this.logoFile = file;
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.logoPreviewUrl = e.target.result as string;
+      };
+      reader.readAsDataURL(file);
+    } else {
+      this.logoFile = null;
+      this.logoPreviewUrl = '';
+    }
+  }
+
+  onSubmit(): void {
+    this.form.markAllAsTouched();
+
+    if (this.form.invalid || !this.logoFile) {
+      this.errorService.showToast(
+        !this.logoFile
+          ? 'Please upload company logo'
+          : 'Please fill all required fields',
+        'error',
+        5000,
+        'Validation Error',
+        'red',
       );
+      return;
     }
-  }
 
-  getCountries() {
+    // جسم الداتا اللي الباك إند طالبها
+    const payload = {
+      name: this.form.value.name,
+      email: this.form.value.email,
+      phone: this.form.value.phone,
+      address: this.form.value.address,
+      city: this.form.value.city,
+      state: this.form.value.state,
+      zip: this.form.value.zip,
+      country: this.form.value.country,
+      sector: this.form.value.sector,
+    };
+
+    // تكوين الـ FormData: data (JSON) + logo (File)
+    const formData = new FormData();
+    formData.append('data', JSON.stringify(payload));
+    formData.append('logo', this.logoFile as Blob, this.logoFile!.name);
+
     this.subscriptions.add(
-      this.basicDataService.getBasicData('getCountries').subscribe({
-        next: (res) => {
-          console.log('Countries:', res.data);
+      this.companiesService.createCompany(formData).subscribe({
+        next: () => {
+          this.errorService.showToast(
+            'Company created successfully',
+            'success',
+            5000,
+            'Success',
+            'green',
+          );
+          this.router.navigate(['/companies/companies-list']);
         },
-        error: (err) => {
-          console.error(err);
-        }
-      })
-    )
-  }
+        error: (err: any) => {
+          let message = 'Something went wrong while creating company';
 
-  getPackages() {
-    this.subscriptions.add(
-      this.basicDataService.getBasicData('getCompanyPackages').subscribe({
-        next: (res) => {
-          console.log('Packages:', res.data);
+          if (err?.error?.Error && Array.isArray(err.error.Error)) {
+            const errors = err.error.Error.map(
+              (e: any) => e.details || e.message || 'Unknown error',
+            );
+            message = errors.join(', ');
+          } else if (err?.error?.Message) {
+            message = err.error.Message;
+          } else if (err?.error?.message) {
+            message = err.error.message;
+          }
+
+          this.errorService.showToast(message, 'error', 7000, 'Error', 'red');
         },
-        error: (err) => {
-          console.error(err);
-        }
-      })
-    )
-  }
-
-  getCities() {
-    this.subscriptions.add(
-      this.basicDataService.getBasicData('getCities').subscribe({
-        next: (res) => {
-          console.log('Cities:', res.data);
-        },
-        error: (err) => {
-          console.error(err);
-        }
-      })
-    )
-  }
-
-  getErrorMessage(controlName: string, fieldName?: any): string[] | null {
-    const control = this.form.get(controlName);
-    const fieldErrorParts = String(controlName).split('.');
-    const fieldError = fieldErrorParts[fieldErrorParts.length - 1];
-    if (this.apiErrors[fieldError]) {
-      control?.markAsTouched();
-    }
-    return control
-      ? this.validationService.getErrorMessage(
-        control,
-        controlName,
-        fieldName,
-        this.apiErrors
-      )
-      : null;
-  }
-
-  generatePassword() {
-    let password = this.passwordService.generatePassword();
-    this.form.controls['password'].patchValue(
-      password
+      }),
     );
   }
 
-  onSubmit() { }
-
-  ngOnDestroy() {
-    this.subscriptions.unsubscribe()
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 }

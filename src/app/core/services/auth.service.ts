@@ -1,22 +1,21 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { tokenKey } from '../constants/general';
-import { IApiResponse } from '../interfaces/api';
+
 import { environment } from '../../../environments/environment';
-import { apisList } from '../constants/aips';
+import { apisList } from '../constants/apis';
 import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-
   constructor(
     private http: HttpClient,
-    private router: Router
-  ) { }
+    private router: Router,
+  ) {}
 
   private user = new BehaviorSubject<any>({});
   user$ = this.user.asObservable();
@@ -63,8 +62,7 @@ export class AuthService {
     return data ? JSON.parse(data) : [];
   }
 
-  login(body: any): Observable<IApiResponse> {
-    return this.http.post<IApiResponse>(environment.apiUrl + apisList.auth.login, body)
+  login(body: any) {
+    return this.http.post(environment.apiUrl + apisList.auth.login, body);
   }
-
 }

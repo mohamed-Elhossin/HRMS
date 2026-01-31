@@ -1,29 +1,40 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { CardComponent } from "../../../../shared/components/card/card.component";
-import { CustomInputComponent } from "../../../../shared/components/custom-input/custom-input.component";
-import { CustomButtonComponent } from "../../../../shared/components/custom-button/custom-button.component";
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CardComponent } from '../../../../shared/components/card/card.component';
+import { CustomInputComponent } from '../../../../shared/components/custom-input/custom-input.component';
+import { CustomButtonComponent } from '../../../../shared/components/custom-button/custom-button.component';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Subscription } from 'rxjs';
 // import { CustomAlertComponent } from "../../../../shared/components/custom-alert/custom-alert.component";
 import { ErrorService } from '../../../../shared/services/error.service';
+import { AuthService } from '../../../../core/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
-  imports: [CardComponent, CustomInputComponent, CustomButtonComponent, ReactiveFormsModule],
+  imports: [
+    CardComponent,
+    CustomInputComponent,
+    CustomButtonComponent,
+    ReactiveFormsModule,
+  ],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrl: './login.component.css',
 })
 export class LoginComponent implements OnInit, OnDestroy {
-
   subscriptions: Subscription = new Subscription();
-  form: FormGroup = new FormGroup({})
+  form: FormGroup = new FormGroup({});
 
   constructor(
     private fb: FormBuilder,
-    private errorService: ErrorService
-  ) {
-
-  }
+    private errorService: ErrorService,
+    private authService: AuthService,
+    private router : Router
+  ) {}
 
   ngOnInit(): void {
     this.createForm();
@@ -32,22 +43,35 @@ export class LoginComponent implements OnInit, OnDestroy {
   createForm() {
     this.form = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
-      rememberMe: [false]
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      rememberMe: [false],
     });
   }
 
   onSubmit() {
     this.subscriptions.add(
-
-    )
-
-    this.errorService.showToast(
-      'Credentials are incorrect',
-      'error',
-      500000,
-      'Email or password is incorrect',
-      'red',
+      this.authService.login(this.form.value).subscribe({
+        next: (res: any) => {
+          this.errorService.showToast(
+            'Login Successful',
+            'success',
+            500000,
+            'Welocome back!',
+            'green',
+          );
+          this.authService.setToken(res.Data.Content.token);
+          this.router.navigate(['/dashboard']); 
+        },
+        error: () => {
+          this.errorService.showToast(
+            'Incorrect Credentials   ',
+            'error',
+            500000,
+            'Email or password is incorrect',
+            'red',
+          );
+        },
+      }),
     );
   }
 

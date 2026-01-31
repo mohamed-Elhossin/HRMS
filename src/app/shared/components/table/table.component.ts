@@ -158,7 +158,7 @@ export class TableComponent implements OnInit, OnChanges {
   }
 
   @HostListener('document:keydown.escape', ['$event'])
-  handleEscapeKey(_event: KeyboardEvent) {
+  handleEscapeKey(_event: Event) {
     Object.keys(this.showFilterInput)?.forEach((key) => {
       this.showFilterInput[key] = false;
     });

@@ -4,7 +4,7 @@ import { BaseService } from './base.service';
 import { Observable } from 'rxjs';
 import { IApiResponse } from '../interfaces/api';
 import { environment } from '../../../environments/environment';
-import { apisList } from '../constants/aips';
+import { apisList } from '../constants/apis';
 
 @Injectable({
   providedIn: 'root'

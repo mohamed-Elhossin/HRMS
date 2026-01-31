@@ -59,18 +59,7 @@ export const companiesChildren: Route[] = [
         //   ],
         // },
       },
-      {
-        path: 'manage-password',
-        loadComponent: () =>
-          import(
-            '../../features/main/pages/companies/components/view-manage-password/view-manage-password.component'
-          ).then((m) => m.ViewManagePasswordComponent),
-        // data: {
-        //   breadcrumb: [
-        //     { label: 'Manage password', url: '/companies/view-company/manage-password' },
-        //   ],
-        // },
-      },
+
     ],
   },
 ];

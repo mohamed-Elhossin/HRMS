@@ -1,103 +1,141 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { TableComponent } from "../../../../../../shared/components/table/table.component";
+import { Component, OnDestroy, OnInit, ViewChild, TemplateRef } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { StatusBadgeComponent } from "../../../../../../shared/components/status-badge/status-badge.component";
-import { CustomButtonComponent } from "../../../../../../shared/components/custom-button/custom-button.component";
-import { Router, RouterModule } from '@angular/router';
-import { TitleCasePipe } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
+import { CustomInputComponent } from '../../../../../../shared/components/custom-input/custom-input.component';
+import { CustomButtonComponent } from '../../../../../../shared/components/custom-button/custom-button.component';
+import { TableComponent } from '../../../../../../shared/components/table/table.component';
+import { TitlePageComponent } from '../../../../../../shared/components/title-page/title-page.component';
+import { CompaniesService } from '../../../../../../core/services/companies.service';
+import { ErrorService } from '../../../../../../shared/services/error.service';
 
 @Component({
   selector: 'app-companies-list',
-  imports: [TableComponent, StatusBadgeComponent, CustomButtonComponent, RouterModule, TitleCasePipe, TranslateModule],
+  standalone: true,
+  imports: [
+    ReactiveFormsModule,
+    CustomInputComponent,
+    CustomButtonComponent,
+    TableComponent,
+    TitlePageComponent,
+  ],
   templateUrl: './companies-list.component.html',
-  styleUrl: './companies-list.component.css'
+  styleUrl: './companies-list.component.css',
 })
-export class CompaniesListComponent implements OnInit, AfterViewInit, OnDestroy {
-  constructor(private router:Router){}
+export class CompaniesListComponent implements OnInit, OnDestroy {
+  searchForm!: FormGroup;
+  loading = false;
+  companiesData: any[] = [];
+  companiesDataWithIndex: any[] = []; // 👈 للترقيم
 
-  private subscription: Subscription = new Subscription();
+  columns = [
+    { key: 'index', label: '#', custom: true, templateKey: 'indexTemplate' },
+    { key: 'name', label: 'Company Name', custom: true, templateKey: 'companyNameTemplate' },
+    { key: 'phone', label: 'Phone', custom: true, templateKey: 'phoneTemplate' },
+    { key: 'email', label: 'Business Email', custom: true, templateKey: 'emailTemplate' },
+    { key: 'sector', label: 'Sector', custom: true, templateKey: 'packageTemplate' },
+    { key: 'country', label: 'Location', custom: true, templateKey: 'countryTemplate' },
+  ];
 
-  loading: boolean = true;
   customTemplates: { [key: string]: TemplateRef<any> } = {};
-  columns: any = []
-  data: any[] = []
-  statusOptions: any[] = []
 
+  @ViewChild('indexTemplate', { static: true }) indexTemplate!: TemplateRef<any>;
   @ViewChild('companyNameTemplate', { static: true }) companyNameTemplate!: TemplateRef<any>;
+  @ViewChild('phoneTemplate', { static: true }) phoneTemplate!: TemplateRef<any>;
   @ViewChild('emailTemplate', { static: true }) emailTemplate!: TemplateRef<any>;
   @ViewChild('packageTemplate', { static: true }) packageTemplate!: TemplateRef<any>;
-  @ViewChild('statusTemplate', { static: true }) statusTemplate!: TemplateRef<any>;
-  @ViewChild('creationDateTemplate', { static: true }) creationDateTemplate!: TemplateRef<any>;
   @ViewChild('countryTemplate', { static: true }) countryTemplate!: TemplateRef<any>;
-  @ViewChild('actionTemplate', { static: true }) actionTemplate!: TemplateRef<any>;
+
+  private subscriptions = new Subscription();
+
+  constructor(
+    private fb: FormBuilder,
+    private companiesService: CompaniesService,
+    private errorService: ErrorService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    this.columns = [
-      { key: 'name', label: 'Name', type: 'text', templateKey: 'companyName', custom: true },
-      { key: 'email', label: 'Business Email', type: 'text', templateKey: 'email', custom: true },
-      { key: 'packageName', label: 'Package', type: 'text', templateKey: 'package', custom: true },
-      { key: 'status', label: 'Account Status', type: 'date', templateKey: 'status', custom: true },
-      { key: 'createdAt', label: 'Creation Date', type: 'date', templateKey: 'creationDate', custom: true },
-      { key: 'country', label: 'Country', type: 'date', templateKey: 'country', custom: true },
-      { key: 'action', label: 'Action', type: 'date', templateKey: 'action', custom: true },
-    ];
+    this.createSearchForm();
+    this.initTemplates();
+    this.loadCompanies();
+  }
 
-    setTimeout(() => {
-      this.data = [
-        {
-          id: '1',
-          name: 'Ramy Salem',
-          code: 'ID# 1',
-          email: 'it@swalac.com',
-          emailStatus: 'verified',
-          packageName: 'diamond',
-          accountStatus: 'active',
-          createdAt: '1/20/2025',
-          createdBy: 'Ahmed Samy',
-          country: 'Saudi Arabia',
-          city: 'Jeddah',
+  createSearchForm(): void {
+    this.searchForm = this.fb.group({
+      id: new FormControl(''),
+      name: new FormControl(''),
+    });
+  }
+
+  initTemplates(): void {
+    this.customTemplates = {
+      indexTemplate: this.indexTemplate,
+      companyNameTemplate: this.companyNameTemplate,
+      phoneTemplate: this.phoneTemplate,
+      emailTemplate: this.emailTemplate,
+      packageTemplate: this.packageTemplate,
+      countryTemplate: this.countryTemplate,
+    };
+  }
+
+  loadCompanies(): void {
+    this.loading = true;
+
+    console.log('🔍 Search Payload:', this.searchForm.value);
+
+    const { id, name } = this.searchForm.value;
+    const body: any = {};
+
+    if (id?.trim()) {
+      body.id = id.trim();
+    }
+    if (name?.trim()) {
+      body.name = name.trim();
+    }
+
+    console.log('📤 Final API Body:', body);
+
+    this.subscriptions.add(
+      this.companiesService.getCompanies(body).subscribe({
+        next: (res: any) => {
+          console.log('📥 API Response:', res);
+          this.companiesData = res.data || res.Data?.Content || [];
+          this.updateDataWithIndex();
+          this.loading = false;
         },
-        {
-          id: '2',
-          name: 'IFAS',
-          code: 'ID# 1',
-          email: 'it@gg.com',
-          emailStatus: 'verified',
-          packageName: 'trial',
-          accountStatus: 'active',
-          createdAt: '1/20/2025',
-          createdBy: 'Ramy Salem',
-          country: 'Saudi Arabia',
-          city: 'Jeddah',
-        }
-      ];
-      this.loading = false;
-    }, 1000);
-
+        error: (err: any) => {
+          console.error('❌ API Error:', err);
+          this.loading = false;
+          const message = err?.error?.Message || err?.error?.message || 'Failed to load companies';
+          this.errorService.showToast(message, 'error', 5000, 'Error', 'red');
+        },
+      })
+    );
   }
 
-  ngAfterViewInit(): void {
-    this.customTemplates['companyName'] = this.companyNameTemplate;
-    this.customTemplates['email'] = this.emailTemplate;
-    this.customTemplates['package'] = this.packageTemplate;
-    this.customTemplates['status'] = this.statusTemplate;
-    this.customTemplates['creationDate'] = this.creationDateTemplate;
-    this.customTemplates['country'] = this.countryTemplate;
-    this.customTemplates['action'] = this.actionTemplate;
+  private updateDataWithIndex(): void {
+    this.companiesDataWithIndex = this.companiesData.map((company, index) => ({
+      ...company,
+      index: index + 1,
+    }));
   }
 
-  blockAccount(id:any){
-    console.log(id);
-
+  onSearch(): void {
+    console.log('🔍 onSearch clicked, form value:', this.searchForm.value);
+    this.loadCompanies();
   }
 
-  navigateByUrl(location:string){
-    this.router.navigateByUrl(location)
+  onReset(): void {
+    this.searchForm.reset();
+    this.loadCompanies();
+  }
+
+  navigateToCreate(): void {
+    this.router.navigate(['/companies/create-company']);
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.subscriptions.unsubscribe();
   }
-
 }
