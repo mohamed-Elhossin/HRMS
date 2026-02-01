@@ -1,0 +1,34 @@
+<div class="bg-white rounded shadow p-5 m-5">
+<div class="w-full overflow-x-auto rounded-xl border border-gray-200 bg-white shadow-sm">
+  <app-table
+    [loading]="loading"
+    [columns]="columns"
+    [data]="departmentsData"
+
+    tableClass="min-w-full divide-y divide-gray-100"
+    headerClass="bg-gray-50 text-gray-700 font-semibold text-sm uppercase tracking-wider"
+    rowClass="hover:bg-gray-50 transition-colors duration-150"
+    cellClass="px-4 py-3 text-sm text-gray-700"
+  ></app-table>
+</div>
+<ng-template #indexTemplate let-element="element">
+  <span class="font-medium text-gray-600">{{ element.index }}</span>
+</ng-template>
+
+<!-- Company Name (Link) -->
+<ng-template #departmentName let-element="element">
+
+    <span class="font-semibold text-gray-800 hover:text-blue-600 block mb-1 transition-colors">
+      {{ element?.name }}
+    </span>
+
+</ng-template>
+<ng-template #userEmail let-element="element">
+
+    <span class="font-semibold text-gray-800 hover:text-blue-600 block mb-1 transition-colors">
+      {{ element?.email }}
+    </span>
+
+</ng-template>
+
+</div>

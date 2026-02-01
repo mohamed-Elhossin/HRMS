@@ -1,38 +1,29 @@
-<div>
-  <app-title-page title="Companies List"></app-title-page>
-</div>
-
-<!-- Header مع Search و Create Button -->
-<div class="flex flex-col lg:flex-row lg:justify-between lg:items-end gap-6 mb-6">
+<!-- Header + Search + Create Button -->
+<div class="flex flex-col lg:flex-row lg:justify-between lg:items-end gap-6 mb-8">
   <!-- Search Form -->
-  <form [formGroup]="searchForm" class="flex flex-wrap gap-4 w-full lg:w-auto">
-    <div class="w-full lg:w-56">
-      <app-custom-input
-        type="text"
-        formControlName="id"
-        label="Company ID"
-        placeholder="Enter ID"
-      ></app-custom-input>
-    </div>
-    <div class="w-full lg:w-72">
+  <form [formGroup]="searchForm" class="flex flex-wrap items-end gap-4 w-full lg:w-auto">
+
+    <div class="w-full xl:w-90">
       <app-custom-input
         type="text"
         formControlName="name"
         label="Company Name"
-        placeholder="Enter name"
+        placeholder="Enter company name..."
+        inputClass="!bg-white border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 rounded-lg px-4 py-2.5 text-sm"
+        labelClass="!text-gray-700 !font-medium text-sm mb-1"
       ></app-custom-input>
     </div>
-    <div class="flex gap-2 pt-8 lg:pt-0 self-end">
+
+    <div class="flex gap-2 self-end">
       <app-custom-button
         type="button"
         label="Search"
-        (click)="onSearch()"
+         (click)="onSearch()"
       ></app-custom-button>
       <app-custom-button
         type="button"
         label="Reset"
-        buttonClass="!bg-transparent underline !text-[#001] hover:!bg-transparent"
-        (click)="onReset()"
+         (click)="onReset()"
       ></app-custom-button>
     </div>
   </form>
@@ -42,47 +33,73 @@
     <app-custom-button
       type="button"
       label="Create New Company"
-      (click)="navigateToCreate()"
+       (click)="navigateToCreate()"
     ></app-custom-button>
   </div>
 </div>
 
 <!-- Table -->
-<div class="w-full">
+<div class="w-full overflow-x-auto rounded-xl border border-gray-200 bg-white shadow-sm">
   <app-table
     [loading]="loading"
     [columns]="columns"
     [data]="companiesDataWithIndex"
     [templates]="customTemplates"
+    tableClass="min-w-full divide-y divide-gray-100"
+    headerClass="bg-gray-50 text-gray-700 font-semibold text-sm uppercase tracking-wider"
+    rowClass="hover:bg-gray-50 transition-colors duration-150"
+    cellClass="px-4 py-3 text-sm text-gray-700"
   ></app-table>
 </div>
 
 <!-- Templates -->
+
+<!-- Index -->
 <ng-template #indexTemplate let-element="element">
-  <span class="font-medium text-[#4B5675]">{{ element.index }}</span>
+  <span class="font-medium text-gray-600">{{ element.index }}</span>
 </ng-template>
 
+<!-- Company Name (Link) -->
 <ng-template #companyNameTemplate let-element="element">
-  <span class="font-semibold text-[#071437] block mb-1">{{ element?.name }}</span>
+  <a [routerLink]="['/companies/view-company', element._id]">
+    <span class="font-semibold text-gray-800 hover:text-blue-600 block mb-1 transition-colors">
+      {{ element?.name }}
+    </span>
+  </a>
 </ng-template>
 
+<!-- Phone -->
 <ng-template #phoneTemplate let-element="element">
-  <span class="font-semibold text-[#071437] block mb-1">{{ element?.phone }}</span>
+  <span class="font-semibold text-gray-800">{{ element?.phone }}</span>
 </ng-template>
 
+<!-- Email -->
 <ng-template #emailTemplate let-element="element">
   <div class="flex items-center gap-2">
-    <span class="font-medium text-[#071437] text-sm truncate max-w-32">{{ element?.email }}</span>
+    <span class="font-medium text-gray-700 text-sm truncate max-w-32">
+      {{ element?.email }}
+    </span>
   </div>
 </ng-template>
 
+<!-- Sector (Package) -->
 <ng-template #packageTemplate let-element="element">
-  <span class="font-medium text-[#071437]">{{ element?.sector }}</span>
+  <span class="font-medium text-gray-700">{{ element?.sector }}</span>
 </ng-template>
 
+<!-- Country + City -->
 <ng-template #countryTemplate let-element="element">
   <div class="flex flex-col">
-    <span class="font-medium">{{ element?.country }}</span>
-    <span class="text-xs text-[#4B5675]">{{ element?.city }}</span>
+    <span class="font-medium text-gray-800">{{ element?.country }}</span>
+    <span class="text-xs text-gray-500">{{ element?.city }}</span>
   </div>
 </ng-template>
+
+<ng-template #actionTemplate let-element="element">
+  <div class="flex gap-2">
+    <a [routerLink]="['/companies/view-company', element._id]" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
+     <span [innerHTML]="appService.getIcons('eye' , 'color : black;')" >     </span>
+    </a>
+  </div>
+</ng-template>
+

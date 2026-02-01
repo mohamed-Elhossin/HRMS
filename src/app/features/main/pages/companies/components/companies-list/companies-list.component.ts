@@ -1,13 +1,13 @@
 import { Component, OnDestroy, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CustomInputComponent } from '../../../../../../shared/components/custom-input/custom-input.component';
 import { CustomButtonComponent } from '../../../../../../shared/components/custom-button/custom-button.component';
 import { TableComponent } from '../../../../../../shared/components/table/table.component';
-import { TitlePageComponent } from '../../../../../../shared/components/title-page/title-page.component';
-import { CompaniesService } from '../../../../../../core/services/companies.service';
+ import { CompaniesService } from '../../../../../../core/services/companies.service';
 import { ErrorService } from '../../../../../../shared/services/error.service';
+import { AppService } from '../../../../../../core/services/app.service';
 
 @Component({
   selector: 'app-companies-list',
@@ -17,8 +17,9 @@ import { ErrorService } from '../../../../../../shared/services/error.service';
     CustomInputComponent,
     CustomButtonComponent,
     TableComponent,
-    TitlePageComponent,
-  ],
+    RouterLink,
+
+],
   templateUrl: './companies-list.component.html',
   styleUrl: './companies-list.component.css',
 })
@@ -35,6 +36,7 @@ export class CompaniesListComponent implements OnInit, OnDestroy {
     { key: 'email', label: 'Business Email', custom: true, templateKey: 'emailTemplate' },
     { key: 'sector', label: 'Sector', custom: true, templateKey: 'packageTemplate' },
     { key: 'country', label: 'Location', custom: true, templateKey: 'countryTemplate' },
+    { key: 'Action', label: 'Action', custom: true, templateKey: 'actionTemplate' },
   ];
 
   customTemplates: { [key: string]: TemplateRef<any> } = {};
@@ -45,6 +47,7 @@ export class CompaniesListComponent implements OnInit, OnDestroy {
   @ViewChild('emailTemplate', { static: true }) emailTemplate!: TemplateRef<any>;
   @ViewChild('packageTemplate', { static: true }) packageTemplate!: TemplateRef<any>;
   @ViewChild('countryTemplate', { static: true }) countryTemplate!: TemplateRef<any>;
+  @ViewChild('actionTemplate', { static: true }) actionTemplate!: TemplateRef<any>;
 
   private subscriptions = new Subscription();
 
@@ -52,7 +55,8 @@ export class CompaniesListComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private companiesService: CompaniesService,
     private errorService: ErrorService,
-    private router: Router
+    private router: Router,
+    public appService: AppService,
   ) {}
 
   ngOnInit(): void {
@@ -76,10 +80,12 @@ export class CompaniesListComponent implements OnInit, OnDestroy {
       emailTemplate: this.emailTemplate,
       packageTemplate: this.packageTemplate,
       countryTemplate: this.countryTemplate,
+      actionTemplate: this.actionTemplate,
     };
   }
 
   loadCompanies(): void {
+
     this.loading = true;
 
     console.log('🔍 Search Payload:', this.searchForm.value);
@@ -99,10 +105,12 @@ export class CompaniesListComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this.companiesService.getCompanies(body).subscribe({
         next: (res: any) => {
-          console.log('📥 API Response:', res);
+
           this.companiesData = res.data || res.Data?.Content || [];
           this.updateDataWithIndex();
           this.loading = false;
+          console.log(this.companiesData[0]._id);
+
         },
         error: (err: any) => {
           console.error('❌ API Error:', err);

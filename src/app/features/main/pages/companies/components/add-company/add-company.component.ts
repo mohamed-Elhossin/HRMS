@@ -90,8 +90,7 @@ export class AddCompanyComponent implements OnInit, OnDestroy {
       return;
     }
 
-    // جسم الداتا اللي الباك إند طالبها
-    const payload = {
+     const payload = {
       name: this.form.value.name,
       email: this.form.value.email,
       phone: this.form.value.phone,
@@ -103,8 +102,7 @@ export class AddCompanyComponent implements OnInit, OnDestroy {
       sector: this.form.value.sector,
     };
 
-    // تكوين الـ FormData: data (JSON) + logo (File)
-    const formData = new FormData();
+     const formData = new FormData();
     formData.append('data', JSON.stringify(payload));
     formData.append('logo', this.logoFile as Blob, this.logoFile!.name);
 

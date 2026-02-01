@@ -1,4 +1,228 @@
-  <div>
-    <app-tabs [tabs]="tabs"></app-tabs>
+<div class="container mx-auto px-4 py-6">
+  <!-- Company Card -->
+  <div
+    class="bg-white rounded-2xl shadow-2xl border border-gray-100 p-6 mb-6 transform transition-all duration-300 hover:-translate-y-1 hover:shadow-3xl"
+  >
+    <!-- Logo + Name -->
+    <div class="flex flex-col md:flex-row md:items-center gap-6 mb-6">
+      <!-- Logo -->
+      <div class="flex-shrink-0 group">
+        <div
+          class="relative overflow-hidden rounded-xl border border-gray-200 shadow-sm"
+        >
+          <img
+            [src]="company?.logo"
+            alt="{{ company?.name }}"
+            class="w-24 h-24 object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+          <div
+            class="absolute inset-0 rounded-xl bg-gradient-to-tr from-blue-100/30 to-transparent pointer-events-none"
+          ></div>
+        </div>
+      </div>
+
+      <!-- Name + Sector -->
+      <div class="flex-1">
+        <h2 class="text-2xl font-bold text-gray-900">{{ company?.name }}</h2>
+        <p class="text-lg text-gray-600 mt-1">{{ company?.sector }}</p>
+
+        <!-- Status Badge -->
+        <span
+          class="inline-block px-3 py-1 text-sm font-medium rounded-full mt-2 transition-all duration-200"
+          [class.bg-green-100]="company?.isActive"
+          [class.text-green-800]="company?.isActive"
+          [class.bg-red-100]="!company?.isActive"
+          [class.text-red-800]="!company?.isActive"
+        >
+          {{ company?.isActive ? "Active" : "Inactive" }}
+        </span>
+      </div>
+      <app-custom-button
+        type="button"
+        label="Add Users"
+        (click)="openDialog()"
+        icon="user"
+      ></app-custom-button>
+    </div>
+
+    <!-- Divider -->
+    <div
+      class="h-px w-full bg-gradient-to-r from-transparent via-gray-200 to-transparent my-6"
+    ></div>
+
+    <!-- Info Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Email -->
+      <div class="flex flex-col group">
+        <span
+          class="text-sm font-medium text-gray-500 transition-colors duration-200 group-hover:text-blue-600"
+          >Email</span
+        >
+        <span class="text-base text-gray-800 mt-1">{{ company?.email }}</span>
+      </div>
+
+      <!-- Phone -->
+      <div class="flex flex-col group">
+        <span
+          class="text-sm font-medium text-gray-500 transition-colors duration-200 group-hover:text-blue-600"
+          >Phone</span
+        >
+        <span class="text-base text-gray-800 mt-1">{{ company?.phone }}</span>
+      </div>
+
+      <!-- Address -->
+      <div class="flex flex-col group">
+        <span
+          class="text-sm font-medium text-gray-500 transition-colors duration-200 group-hover:text-blue-600"
+          >Address</span
+        >
+        <span class="text-base text-gray-800 mt-1">{{ company?.address }}</span>
+      </div>
+
+      <!-- Country -->
+      <div class="flex flex-col group">
+        <span
+          class="text-sm font-medium text-gray-500 transition-colors duration-200 group-hover:text-blue-600"
+          >Country</span
+        >
+        <span class="text-base text-gray-800 mt-1">{{ company?.country }}</span>
+      </div>
+
+      <!-- City -->
+      <div class="flex flex-col group">
+        <span
+          class="text-sm font-medium text-gray-500 transition-colors duration-200 group-hover:text-blue-600"
+          >City</span
+        >
+        <span class="text-base text-gray-800 mt-1">{{ company?.city }}</span>
+      </div>
+
+      <!-- ZIP -->
+      <div class="flex flex-col group">
+        <span
+          class="text-sm font-medium text-gray-500 transition-colors duration-200 group-hover:text-blue-600"
+          >ZIP Code</span
+        >
+        <span class="text-base text-gray-800 mt-1">{{ company?.zip }}</span>
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <div
+      class="h-px w-full bg-gradient-to-r from-transparent via-gray-200 to-transparent my-6"
+    ></div>
+
+    <!-- Created / Updated -->
+    <div class="flex flex-wrap gap-6 text-sm text-gray-600">
+      <span class="flex items-center gap-2 group">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-4 w-4 text-gray-400 group-hover:text-blue-500 transition-colors duration-200"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+          />
+        </svg>
+        <strong class="group-hover:text-gray-800 transition-colors duration-200"
+          >Created:</strong
+        >
+        {{ company?.createdAt | date: "medium" }}
+      </span>
+      <span class="flex items-center gap-2 group">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-4 w-4 text-gray-400 group-hover:text-blue-500 transition-colors duration-200"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+        <strong class="group-hover:text-gray-800 transition-colors duration-200"
+          >Updated:</strong
+        >
+        {{ company?.updatedAt | date: "medium" }}
+      </span>
+    </div>
   </div>
-<router-outlet></router-outlet>
+
+  <!-- Back Button -->
+
+</div>
+
+<section class="container mx-auto py-4">
+  <app-tabs [tabs]="tabs"></app-tabs>
+
+  <router-outlet></router-outlet>
+</section>
+
+<app-dialog
+  [show]="isDialogOpen"
+  [icon]="'plus'"
+  [isFooter]="true"
+  [isHeader]="true"
+  [isTitle]="true"
+  (close)="closeDialog()"
+  (submit)="onDialogSubmit()"
+>
+  <form [formGroup]="form">
+    <div class="flex mb-8 mt-3">
+      <div class="md:w-3/3 w-full flex flex-wrap gap-y-8">
+        <!-- Sector -->
+        <div class="w-full">
+          <app-custom-input
+            type="text"
+            formControlName="name"
+            labelPosition="vertical"
+            label=" Name"
+            placeholder="User Name"
+          ></app-custom-input>
+        </div>
+        <div class="w-full">
+          <app-custom-input
+            type="text"
+            label="Email"
+            formControlName="email"
+            labelPosition="vertical"
+            placeholder=" User Email"
+          ></app-custom-input>
+        </div>
+        <div class="w-full">
+          <app-custom-input
+            label="Password"
+            iconPosition="end"
+            icon="eye"
+            labelPosition="vertical"
+            placeholder="••••••••"
+            type="password"
+            formControlName="password"
+            class="animate-slideLeft-delay1"
+          ></app-custom-input>
+        </div>
+      </div>
+    </div>
+
+
+  </form>
+</app-dialog>
+  <div class="flex justify-end">
+    <app-custom-button
+      label="Back"
+      icon="anglesLeft"
+      type="button"
+      (click)="goBack()"
+    >
+      <!-- <span [innerHTML]="appService.getIcons('anglesRight')"></span> -->
+    </app-custom-button>
+  </div>
