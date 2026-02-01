@@ -4,9 +4,9 @@ import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component
 import { NotFoundComponent } from './layouts/not-found/not-found.component';
 import { authGuard } from './core/guards/auth.guard';
 import { dashboardChildren } from './core/routes/dashboard.routes';
-import { systemSettingsChildren } from './core/routes/system-settings.routes';
-import { companiesChildren } from './core/routes/companies.routes';
+ import { companiesChildren } from './core/routes/companies.routes';
 import { authChildren } from './core/routes/auth.routes';
+import { departmentsChildren } from './core/routes/departments.routes';
 
 export const routes: Routes = [
   {
@@ -34,18 +34,7 @@ export const routes: Routes = [
         },
         children: [...dashboardChildren],
       },
-      // System Settings routes
-      {
-        path: 'system-settings',
-        loadComponent: () =>
-          import(
-            './features/main/pages/system-settings/system-settings.component'
-          ).then((m) => m.SystemSettingsComponent),
-        data: {
-          breadcrumb: [{ label: 'System Settings', url: '/system-settings' }],
-        },
-        children: [...systemSettingsChildren],
-      },
+
       // Companies routes
       {
         path: 'companies',
@@ -58,16 +47,18 @@ export const routes: Routes = [
         },
         children: [...companiesChildren],
       },
-      // Super Admins routes
-      {
-        path: 'super-admins',
+
+      // departments routes
+         {
+        path: 'departments',
         loadComponent: () =>
-          import(
-            './features/main/pages/super-admins/super-admins.component'
-          ).then((m) => m.SuperAdminsComponent),
+          import('./features/main/pages/departments/departments.component').then(
+            (m) => m.DepartmentsComponent
+          ),
         data: {
-          breadcrumb: [{ label: 'Super Admins', url: '/super-admins' }],
+          breadcrumb: [{ label: 'Departments', url: '/departments' }],
         },
+        children: [...departmentsChildren],
       },
     ],
   },

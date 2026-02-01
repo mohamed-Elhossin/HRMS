@@ -2,11 +2,10 @@ import { Component, Input } from '@angular/core';
 import { AppService } from '../../../core/services/app.service';
 import { NgClass } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
-import { KeeniconComponent } from "../keenicon/keenicon.component";
 
 @Component({
   selector: 'app-custom-button',
-  imports: [NgClass, TranslateModule, KeeniconComponent],
+  imports: [NgClass, TranslateModule ],
   standalone: true,
   templateUrl: './custom-button.component.html',
   styleUrl: './custom-button.component.css'

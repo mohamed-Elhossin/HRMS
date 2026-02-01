@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
@@ -19,4 +19,20 @@ export class CompaniesService {
   getCompanies(body: { id?: string | null; name?: string | null }): Observable<any> {
     return this.http.post(`${this.baseUrl}${apisList.Companies.getCompanies}`, body);
   }
+
+   getCompaniesById(body: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}${apisList.Companies.getCompanies}`, body);
+  }
+
+
+   getDepartmentByCompanyId(body: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}${apisList.Companies.getDepartments}`, body);
+  }
+  addAdminForCompany(body: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}${apisList.Companies.addAdminForCompany}`, body);
+  }
+  getCompanyAdmins(body: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}${apisList.Companies.getCompanyAdmins}`, body);
+  }
 }
+

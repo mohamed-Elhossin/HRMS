@@ -1,0 +1,88 @@
+<div>
+  <app-title-page title="Departments List"></app-title-page>
+</div>
+
+<!-- Header مع Search و Create Button -->
+<div class="flex flex-col lg:flex-row lg:justify-between lg:items-end gap-6 mb-6">
+  <!-- Search Form -->
+  <form [formGroup]="searchForm" class="flex flex-wrap gap-4 w-full lg:w-auto">
+    <div class="w-full lg:w-56">
+      <app-custom-input
+        type="text"
+        formControlName="id"
+        label="Company ID"
+        placeholder="Enter ID"
+      ></app-custom-input>
+    </div>
+    <div class="w-full lg:w-72">
+      <app-custom-input
+        type="text"
+        formControlName="name"
+        label="Department Name"
+        placeholder="Enter name"
+      ></app-custom-input>
+    </div>
+    <div class="flex gap-2 pt-8 lg:pt-0 self-end">
+      <app-custom-button
+        type="button"
+        label="Search"
+        (click)="onSearch()"
+      ></app-custom-button>
+      <app-custom-button
+        type="button"
+        label="Reset"
+        buttonClass="!bg-transparent underline !text-[#001] hover:!bg-transparent"
+        (click)="onReset()"
+      ></app-custom-button>
+    </div>
+  </form>
+
+  <!-- Create Button -->
+  <div class="w-full lg:w-auto">
+    <app-custom-button
+      type="button"
+      label="Create New Department"
+      (click)="navigateToCreate()"
+    ></app-custom-button>
+  </div>
+</div>
+
+<!-- Table -->
+<div class="w-full">
+  <app-table
+    [loading]="loading"
+    [columns]="columns"
+    [data]="companiesDataWithIndex"
+    [templates]="customTemplates"
+  ></app-table>
+</div>
+
+<!-- Templates -->
+<ng-template #indexTemplate let-element="element">
+  <span class="font-medium text-[#4B5675]">{{ element.index }}</span>
+</ng-template>
+
+<ng-template #companyNameTemplate let-element="element">
+  <span class="font-semibold text-[#071437] block mb-1">{{ element?.name }}</span>
+</ng-template>
+
+<ng-template #phoneTemplate let-element="element">
+  <span class="font-semibold text-[#071437] block mb-1">{{ element?.phone }}</span>
+</ng-template>
+
+<ng-template #emailTemplate let-element="element">
+  <div class="flex items-center gap-2">
+    <span class="font-medium text-[#071437] text-sm truncate max-w-32">{{ element?.email }}</span>
+  </div>
+</ng-template>
+
+<ng-template #packageTemplate let-element="element">
+  <span class="font-medium text-[#071437]">{{ element?.sector }}</span>
+</ng-template>
+
+<ng-template #countryTemplate let-element="element">
+  <div class="flex flex-col">
+    <span class="font-medium">{{ element?.country }}</span>
+    <span class="text-xs text-[#4B5675]">{{ element?.city }}</span>
+  </div>
+</ng-template>

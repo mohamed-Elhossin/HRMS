@@ -6,17 +6,17 @@
         [ngClass]="modalClass ? modalClass : 'max-w-md'">
         @if(isHeader){
             <div class="flex justify-end">
-                <app-custom-button type="button" icon="circleXmark" (click)="onClose()"></app-custom-button>
+                <app-custom-button type="button" icon="circleXmark" label="close" (click)="onClose()"></app-custom-button>
             </div>
         }
 
         <!-- Title -->
-         @if (isTitle) {
+         <!-- @if (isTitle) {
              <h2 class="text-xl font-semibold mb-5">
                  <span [innerHTML]="appService.getIcons(icon,'margin-inline: 5px;font-size: 18px')"></span>
                  {{ title | translate }}
              </h2>
-         }
+         } -->
 
         <!-- Content from Parent -->
         <ng-content></ng-content>

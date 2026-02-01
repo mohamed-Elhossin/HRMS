@@ -2,11 +2,10 @@ import { Component, Input } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { AppService } from '../../../core/services/app.service';
 import { AuthService } from '../../../core/services/auth.service';
-import { TitleCasePipe } from '@angular/common';
-
+ 
 @Component({
   selector: 'app-title-page',
-  imports: [TranslateModule, TitleCasePipe],
+  imports: [TranslateModule],
   templateUrl: './title-page.component.html',
   styleUrl: './title-page.component.css'
 })

@@ -1,11 +1,15 @@
 <button
   [attr.type]="type"
-  class="w-full py-2 font-[500] rounded-md flex items-center justify-center transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed px-4"
+  class="w-full py-3 font-[500] rounded-md flex items-center justify-center transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed px-4"
   [ngClass]="computeClasses()"
   [disabled]="disabled"
 >
+
   @if (icon && iconPosition === 'start') {
-  <app-keenicon [name]="icon" [style]="iconStyle "> </app-keenicon>
+  <span    [innerHTML]="appService.getIcons(icon)"    [style]="iconStyle
+          ? 'margin-inline-end: 8px;font-size: 18px;color:#99A1B7;' +
+              iconStyle
+          : 'margin-inline-end: 8px;font-size: 18px;color:#99A1B7'"> </span>
   }
 
   <span [ngClass]="labelClass">{{
@@ -13,10 +17,10 @@
   }}</span>
 
   @if (icon && iconPosition === 'end') {
-      <app-keenicon [name]="icon" [style]="iconStyle
-          ? 'margin-inline-start: 8px;font-size: 18px;color:#99A1B7;' +
+      <span  [innerHTML]="appService.getIcons(icon)"   [style]="iconStyle
+          ? 'margin-inline-start: 20px;font-size: 18px;color:#99A1B7;' +
               iconStyle
-          : 'margin-inline-start: 8px;font-size: 18px;color:#99A1B7'"> </app-keenicon>
+          : 'margin-inline-start: 20px;font-size: 18px;color:#99A1B7'"> </span>
 
   }
 </button>

@@ -1,3 +1,5 @@
+ 
+
 
 export const apisList = {
   auth: {
@@ -13,5 +15,8 @@ export const apisList = {
  Companies:{
     createCompany: '/api/companies',
     getCompanies: '/api/companies/getData',
+    getDepartments: '/api/departments/getData',
+    addAdminForCompany: '/api/users',
+    getCompanyAdmins: '/api/users/getData',
  }
 }

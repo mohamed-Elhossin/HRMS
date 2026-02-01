@@ -9,9 +9,9 @@ export const companiesChildren: Route[] = [
   {
     path: 'companies-list',
     loadComponent: () =>
-      import(
-        '../../features/main/pages/companies/components/companies-list/companies-list.component'
-      ).then((m) => m.CompaniesListComponent),
+      import('../../features/main/pages/companies/components/companies-list/companies-list.component').then(
+        (m) => m.CompaniesListComponent,
+      ),
     data: {
       breadcrumb: [
         { label: 'Companies List', url: '/companies/companies-list' },
@@ -21,9 +21,9 @@ export const companiesChildren: Route[] = [
   {
     path: 'create-company',
     loadComponent: () =>
-      import(
-        '../../features/main/pages/companies/components/add-company/add-company.component'
-      ).then((m) => m.AddCompanyComponent),
+      import('../../features/main/pages/companies/components/add-company/add-company.component').then(
+        (m) => m.AddCompanyComponent,
+      ),
     data: {
       breadcrumb: [
         { label: 'create New Company', url: '/companies/add-company' },
@@ -31,35 +31,35 @@ export const companiesChildren: Route[] = [
     },
   },
   {
-    path: 'view-company',
+    path: 'view-company/:id',
     loadComponent: () =>
-      import(
-        '../../features/main/pages/companies/components/view-company/view-company.component'
-      ).then((m) => m.ViewCompanyComponent),
+      import('../../features/main/pages/companies/components/view-company/view-company.component').then(
+        (m) => m.ViewCompanyComponent,
+      ),
     data: {
-      breadcrumb: [
-        { label: 'Company Profile', url: '/companies/view-company' },
-      ],
+      breadcrumb: [{ label: 'View Company', url: '/companies/view-company' }],
     },
     children: [
       {
-        path: '',
-        redirectTo:'general-information',
-        pathMatch:'full'
-      },
-      {
-        path: 'general-information',
+        path: 'departments',
         loadComponent: () =>
-          import(
-            '../../features/main/pages/companies/components/view-general-information/view-general-information.component'
-          ).then((m) => m.ViewGeneralInformationComponent),
-        // data: {
-        //   breadcrumb: [
-        //     { label: 'General Information', url: '/companies/view-company/general-information' },
-        //   ],
-        // },
+          import('../../features/main/pages/companies/components/get-departments/get-departments.component').then(
+            (m) => m.GetDepartmentsComponent,
+          ),
+        data: {
+          breadcrumb: [{ label: 'Departments', url: '/companies/departments' }],
+        },
       },
-
+          {
+        path: 'admins',
+        loadComponent: () =>
+          import('../../features/main/pages/companies/components/get-admin-company/get-admin-company.component').then(
+            (m) => m.GetAdminCompanyComponent,
+          ),
+        data: {
+          breadcrumb: [{ label: 'Admins', url: '/companies/admins' }],
+        },
+      },
     ],
   },
 ];
